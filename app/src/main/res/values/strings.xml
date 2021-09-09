@@ -9,4 +9,9 @@
     <string name="five_q_game">5 spørsmål</string>
     <string name="ten_q_game">10 spørsmål</string>
     <string name="fifteen_q_game">15 spørsmål</string>
+    <string name="preference_length">Antall spørsmål</string>
+    <string name="preference_language">Språk</string>
+    <string name="preference_headline">Preferanser</string>
+    <string name="lang_no">Norsk</string>
+    <string name="lang_de">Tysk</string>
 </resources>
