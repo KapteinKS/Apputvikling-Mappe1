@@ -23,6 +23,10 @@
             android:parentActivityName=".MainActivity">
 
         </activity>
+        <activity android:name=".Game"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
     </application>
 
 </manifest>
