@@ -1,4 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="questions">
+        <item>25 + 38</item>
+        <item>125 + 154</item>
+        <item>358 + 132</item>
+        <item>59 + 428</item>
+        <item>195 + 302</item>
+        <item>411 + 94</item>
+        <item>236 + 91</item>
+        <item>119 + 485</item>
+        <item>497 + 71</item>
+        <item>262 + 433</item>
+        <item>51 + 416</item>
+        <item>252 + 282</item>
+        <item>181 + 260</item>
+        <item>42 + 105</item>
+        <item>69 + 420</item>
+    </string-array>
 
+    <integer-array name="answers">
+        <item>63</item>
+        <item>279</item>
+        <item>490</item>
+        <item>487</item>
+        <item>497</item>
+        <item>505</item>
+        <item>327</item>
+        <item>604</item>
+        <item>568</item>
+        <item>695</item>
+        <item>467</item>
+        <item>534</item>
+        <item>441</item>
+        <item>147</item>
+        <item>489</item>
+    </integer-array>
 </resources>
