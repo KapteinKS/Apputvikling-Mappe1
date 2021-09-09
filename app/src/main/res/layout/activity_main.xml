@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/headline"
+        android:text="@string/main_headline"
         android:textSize="34sp"
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"

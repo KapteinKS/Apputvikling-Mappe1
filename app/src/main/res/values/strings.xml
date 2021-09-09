@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Mappe1</string>
-    <string name="headline">Lær matte!</string>
+    <string name="main_headline">Lær matte!</string>
     <string name="start_game">Start spill</string>
     <string name="statistics">Se statistikk</string>
     <string name="preferences">Preferanser</string>
+    <string name="statistics_headline">Høyeste poengsum</string>
 </resources>
