@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mappe1">
         <activity
-            android:name=".Spill"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,6 +19,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".Statistics"
+            android:parentActivityName=".MainActivity">
+
+        </activity>
+        <activity android:name=".Game"
             android:parentActivityName=".MainActivity">
 
         </activity>
