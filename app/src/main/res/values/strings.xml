@@ -5,4 +5,8 @@
     <string name="statistics">Se statistikk</string>
     <string name="preferences">Preferanser</string>
     <string name="statistics_headline">Høyeste poengsum</string>
+    <string name="delete_stats">Slett statistikk</string>
+    <string name="five_q_game">5 spørsmål</string>
+    <string name="ten_q_game">10 spørsmål</string>
+    <string name="fifteen_q_game">15 spørsmål</string>
 </resources>

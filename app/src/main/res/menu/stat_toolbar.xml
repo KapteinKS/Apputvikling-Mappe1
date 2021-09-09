@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/delete_stats"
+        android:title="@string/delete_stats"/>
+    <item
+        android:id="@+id/five_q_game"
+        android:title="@string/five_q_game"/>
+    <item
+        android:id="@+id/ten_q_game"
+        android:title="@string/ten_q_game"/>
+    <item
+        android:id="@+id/fifteen_q_game"
+        android:title="@string/fifteen_q_game"/>
+
+</menu>
