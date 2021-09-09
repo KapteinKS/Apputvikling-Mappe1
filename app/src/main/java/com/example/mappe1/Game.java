@@ -1,5 +1,6 @@
 package com.example.mappe1;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -7,13 +8,52 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 public class Game extends AppCompatActivity {
 
+    Resources res = getResources();
+    String[] questions = res.getStringArray(R.array.questions);
+    int[] answers = res.getIntArray(R.array.questions);
+
     // Creating a numberbuffer
+    StringBuilder numberBuffer = new StringBuilder();
+    ArrayList<Integer> questions_asked = new ArrayList<>();
+
+    int[] select_random(int roundsToPlay){
+
+        int min = 0;
+        int max = answers.length;
+
+        ArrayList<Integer> roundBuffer = new ArrayList<>();
+
+        while (questions_asked.size() < answers.length){
+            Random rand = new Random();
+            int randomNumber = rand.nextInt((max - min) + 1) + min;
+            if (!(questions_asked.contains(randomNumber))){
+                questions_asked.add(randomNumber);
+                roundBuffer.add(randomNumber);
+                if (roundBuffer.size() == roundsToPlay){
+                    break;
+                }
+            }
+        }
+        int[] round = new int[roundBuffer.size()];
+        for (int i : round){
+            i = roundBuffer.get(i);
+        }
+
+        System.out.println("The round" + round.toString());
+        return round;
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        StringBuilder numberBuffer = new StringBuilder();
+
+        select_random(5);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
