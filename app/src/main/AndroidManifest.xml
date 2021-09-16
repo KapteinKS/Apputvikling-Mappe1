@@ -27,7 +27,7 @@
             android:parentActivityName=".MainActivity">
 
         </activity>
-        <activity android:name=".Preferences"
+        <activity android:name=".SetPreferencesActivity"
             android:parentActivityName=".MainActivity">
 
         </activity>

@@ -14,4 +14,6 @@
     <string name="preference_headline">Preferanser</string>
     <string name="lang_no">Norsk</string>
     <string name="lang_de">Tysk</string>
+    <string name="lang_explanation">Velg språk</string>
+    <string name="length_explanation" >Velg antall spørsmål</string>
 </resources>

@@ -10,11 +10,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
 
-public class Preferences extends AppCompatActivity {
+public class SetPreferences extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.preferences);
+        setContentView(R.layout.set_preferences);
     }
 
     public void norsk(View view) {

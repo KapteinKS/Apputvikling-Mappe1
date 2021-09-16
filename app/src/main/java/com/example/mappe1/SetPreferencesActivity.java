@@ -4,14 +4,15 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class setPreferencesActivity extends AppCompatActivity {
+public class SetPreferencesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.preferences);
+        setContentView(R.layout.set_preferences);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.settings_container,
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.settings_container,
                 new PreferenceFragment()).commit();
     }
 }

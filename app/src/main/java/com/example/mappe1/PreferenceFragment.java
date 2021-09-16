@@ -3,12 +3,13 @@ package com.example.mappe1;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 
 public class PreferenceFragment extends PreferenceFragmentCompat implements
         SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey){
-        addPreferenceFromResource(R.xml.preferences);
+        addPreferencesFromResource(R.xml.preferences);
     }
 
     @Override
