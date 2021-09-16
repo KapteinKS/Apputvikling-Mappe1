@@ -18,19 +18,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        android:id="@+id/question"
+        android:layout_width="318dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
+        android:layout_marginStart="0dp"
         android:layout_marginTop="60dp"
-        android:text="2x + 24 ="
+        android:text=""
+        android:textAlignment="center"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/output"
+        android:id="@+id/userInput"
         android:layout_width="318dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
