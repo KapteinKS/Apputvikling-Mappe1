@@ -86,32 +86,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
-    <RadioGroup
-        android:layout_width="0dp"
+    <Button
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal"
-        android:background="@color/purple_500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4">
-
-        <RadioButton
-            android:id="@+id/language_no"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lang_no"
-            android:textColor="@color/white"
-            tools:layout_editor_absoluteY="58dp" />
-
-        <RadioButton
-            android:id="@+id/language_de"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/lang_de"
-            android:textColor="@color/white"
-            tools:layout_editor_absoluteY="58dp" />
-    </RadioGroup>
+        android:id="@+id/norsk"
+        android:onClick="norsk"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/deutch"
+        android:onClick="deutch"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
