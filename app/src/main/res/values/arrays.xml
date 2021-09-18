@@ -13,9 +13,9 @@
         <item>10</item>
         <item>15</item>
     </string-array>
-    <integer-array name="length_values_array" >
+    <string-array name="length_values_array" >
         <item>5</item>
         <item>10</item>
         <item>15</item>
-    </integer-array>
+    </string-array>
 </resources>
