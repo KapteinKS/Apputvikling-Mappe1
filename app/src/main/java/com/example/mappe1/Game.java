@@ -2,6 +2,7 @@ package com.example.mappe1;
 
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,15 +14,18 @@ import java.util.Random;
 
 public class Game extends AppCompatActivity {
 
-    Resources res = getResources();
-    String[] questions = res.getStringArray(R.array.questions);
-    int[] answers = res.getIntArray(R.array.questions);
+    String[] questions;
+    int[] answers;
+    int roundsToPlay = 5; // This should get the data from the preferences.
+    int currentRound = 0;
 
     // Creating a numberbuffer
     StringBuilder numberBuffer = new StringBuilder();
-    ArrayList<Integer> questions_asked = new ArrayList<>();
+    //ArrayList<Integer> questions_asked = new ArrayList<>();
 
-    int[] select_random(int roundsToPlay){
+
+    // Function to select a set number of non-played questions.
+    static int[] select_random(int roundsToPlay, int[] answers, ArrayList<Integer> questions_asked){
 
         int min = 0;
         int max = answers.length;
@@ -30,7 +34,7 @@ public class Game extends AppCompatActivity {
 
         while (questions_asked.size() < answers.length){
             Random rand = new Random();
-            int randomNumber = rand.nextInt((max - min) + 1) + min;
+            int randomNumber = rand.nextInt((max - min) + 0) + min;
             if (!(questions_asked.contains(randomNumber))){
                 questions_asked.add(randomNumber);
                 roundBuffer.add(randomNumber);
@@ -40,11 +44,10 @@ public class Game extends AppCompatActivity {
             }
         }
         int[] round = new int[roundBuffer.size()];
-        for (int i : round){
-            i = roundBuffer.get(i);
+        for (int i = 0; i < round.length; i++){
+            round[i] = roundBuffer.get(i);
         }
 
-        System.out.println("The round" + round.toString());
         return round;
 
     }
@@ -52,13 +55,35 @@ public class Game extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
+        // Fetching resources containing the questions and answers to be asked
+        Resources res = getResources();
+        String[] questions = res.getStringArray(R.array.questions);
+        int[] answers = res.getIntArray(R.array.answers);
 
-        select_random(5);
+        ArrayList<Integer> questions_asked = new ArrayList<>();
+
+        // Selecting which questions are to be asked
+        int[] theRound = select_random(roundsToPlay, answers, questions_asked);
+        int[] givenAnswers = new int[theRound.length];
+
+
+        // DEBUG
+        String out = "Runden ble: ";
+        for (int i : theRound){
+            out += " " + i + ": " + questions[i] + "\n";
+        }
+        Log.d("TAG", out);
+
+        Log.d("TAG", "\n####Questions_asked: " + questions_asked.toString());
+        // DEBUG
+
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        TextView output = (TextView)findViewById(R.id.output);
+        TextView question = (TextView)findViewById(R.id.question);
+        TextView userInput = (TextView)findViewById(R.id.userInput);
 
         Button button_backspace = (Button)findViewById(R.id.button_backspace);
         Button button_enter = (Button)findViewById(R.id.button_enter);
@@ -73,22 +98,26 @@ public class Game extends AppCompatActivity {
         Button button_8 = (Button)findViewById(R.id.button_8);
         Button button_9 = (Button)findViewById(R.id.button_9);
 
+        question.setText("");
+
+
 
         // This is super inefficiant. It should not be in onUpdate, I don't think. At least not the refreshing.
 
         // Certainly there is a smarter way of doing this..
 
+
         button_0.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 numberBuffer.append("0");
-                output.setText(numberBuffer.toString()); // This should probably be in a onUpdate()
+                userInput.setText(numberBuffer.toString()); // This should probably be in a onUpdate()
             }
         });
         button_1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if (numberBuffer.length() < 8) {
                     numberBuffer.append("1");
-                    output.setText(numberBuffer.toString());
+                    userInput.setText(numberBuffer.toString());
                 }
             }
         });
@@ -96,7 +125,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v){
                 if (numberBuffer.length() < 8) {
                     numberBuffer.append("2");
-                    output.setText(numberBuffer.toString());
+                    userInput.setText(numberBuffer.toString());
                 }
             }
         });
@@ -104,7 +133,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v){
                 if (numberBuffer.length() < 8) {
                     numberBuffer.append("3");
-                    output.setText(numberBuffer.toString());
+                    userInput.setText(numberBuffer.toString());
                 }
             }
         });
@@ -112,7 +141,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v){
                 if (numberBuffer.length() < 8) {
                     numberBuffer.append("4");
-                    output.setText(numberBuffer.toString());
+                    userInput.setText(numberBuffer.toString());
                 }
             }
         });
@@ -120,7 +149,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v){
                 if (numberBuffer.length() < 8) {
                     numberBuffer.append("5");
-                    output.setText(numberBuffer.toString());
+                    userInput.setText(numberBuffer.toString());
                 }
             }
         });
@@ -128,7 +157,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v){
                 if (numberBuffer.length() < 8) {
                     numberBuffer.append("6");
-                    output.setText(numberBuffer.toString());
+                    userInput.setText(numberBuffer.toString());
                 }
             }
         });
@@ -136,7 +165,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v){
                 if (numberBuffer.length() < 8) {
                     numberBuffer.append("7");
-                    output.setText(numberBuffer.toString());
+                    userInput.setText(numberBuffer.toString());
                 }
             }
         });
@@ -144,7 +173,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v){
                 if (numberBuffer.length() < 8) {
                     numberBuffer.append("6");
-                    output.setText(numberBuffer.toString());
+                    userInput.setText(numberBuffer.toString());
                 }
             }
         });
@@ -152,7 +181,7 @@ public class Game extends AppCompatActivity {
             public void onClick(View v){
                 if (numberBuffer.length() < 8) {
                     numberBuffer.append("9");
-                    output.setText(numberBuffer.toString());
+                    userInput.setText(numberBuffer.toString());
                 }
             }
         });
@@ -162,16 +191,33 @@ public class Game extends AppCompatActivity {
             public void onClick(View v){
                 if (numberBuffer.length() > 0) {
                     numberBuffer.setLength(numberBuffer.length() - 1);
-                    output.setText(numberBuffer.toString());
+                    userInput.setText(numberBuffer.toString());
                 }
             }
         });
 
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                int answer = Integer.parseInt(numberBuffer.toString()); // Do something with this answer, but first I shall restructure code.
+                int answer = -1;
+                if (numberBuffer.length() > 0) {
+                    answer = Integer.parseInt(numberBuffer.toString()); // Do something with this answer, but first I shall restructure code.
+                }
                 numberBuffer.setLength(0);
-                output.setText("");
+                userInput.setText("");
+                if(currentRound < roundsToPlay){
+                    question.setText(questions[theRound[currentRound]]);
+                    givenAnswers[currentRound] = answer;
+                    currentRound++;
+
+                }
+                else{
+                    userInput.setText("Ya done, slick");
+                    String msg = "Answers were: ";
+                    for (int i : givenAnswers){
+                        msg += i + ", ";
+                    }
+                    Log.d("TAG", msg);
+                }
             }
         });
 
