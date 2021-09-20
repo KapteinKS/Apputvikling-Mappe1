@@ -11,22 +11,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--
-    <PreferenceCategory
-        android:title="@string/preference_language">
-        <Preference
-            android:key="norwegian"
-            android:title="@string/lang_no"
-            android:defaultValue="no"/>
-
-        <Preference
-            android:key="german"
-            android:title="@string/lang_de"
-            android:defaultValue="de"/>
-
-    </PreferenceCategory>
-    -->
-
     <ListPreference
         android:key="@string/sp_key_language"
         android:title="@string/preference_language"
