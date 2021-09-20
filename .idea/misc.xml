@@ -13,7 +13,8 @@
         <entry key="..\:/GitHub/Apputvikling Mappe1/app/src/main/res/layout/statistics.xml" value="0.33" />
         <entry key="..\:/GitHub/Apputvikling Mappe1/app/src/main/res/menu/stat_toolbar.xml" value="0.36666666666666664" />
         <entry key="app/src/main/res/layout-land/activity_game.xml" value="0.20973782771535582" />
-        <entry key="app/src/main/res/layout/activity_game.xml" value="0.28" />
+        <entry key="app/src/main/res/layout/activity_game.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.24625" />
       </map>
     </option>
   </component>

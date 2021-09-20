@@ -17,7 +17,7 @@ public class Game extends AppCompatActivity {
     String[] questions;
     int[] answers;
     int roundsToPlay = 5; // This should get the data from the preferences.
-    int currentRound = 1;
+    int currentRound = 0;
 
     // Creating a numberbuffer
     StringBuilder numberBuffer = new StringBuilder();
@@ -34,7 +34,7 @@ public class Game extends AppCompatActivity {
 
         while (questions_asked.size() < answers.length){
             Random rand = new Random();
-            int randomNumber = rand.nextInt((max - min) + 1) + min;
+            int randomNumber = rand.nextInt((max - min) + 0) + min;
             if (!(questions_asked.contains(randomNumber))){
                 questions_asked.add(randomNumber);
                 roundBuffer.add(randomNumber);
@@ -70,14 +70,12 @@ public class Game extends AppCompatActivity {
         // DEBUG
         String out = "Runden ble: ";
         for (int i : theRound){
-            out += " " + i;
+            out += " " + i + ": " + questions[i] + "\n";
         }
         Log.d("TAG", out);
 
         Log.d("TAG", "\n####Questions_asked: " + questions_asked.toString());
         // DEBUG
-
-
 
 
 
@@ -100,12 +98,14 @@ public class Game extends AppCompatActivity {
         Button button_8 = (Button)findViewById(R.id.button_8);
         Button button_9 = (Button)findViewById(R.id.button_9);
 
-        question.setText(questions[theRound[currentRound]]);
+        question.setText("");
+
 
 
         // This is super inefficiant. It should not be in onUpdate, I don't think. At least not the refreshing.
 
         // Certainly there is a smarter way of doing this..
+
 
         button_0.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -198,15 +198,25 @@ public class Game extends AppCompatActivity {
 
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                int answer = -1;
                 if (numberBuffer.length() > 0) {
-                    int answer = Integer.parseInt(numberBuffer.toString()); // Do something with this answer, but first I shall restructure code.
-                    givenAnswers[currentRound - 1] = answer;
+                    answer = Integer.parseInt(numberBuffer.toString()); // Do something with this answer, but first I shall restructure code.
                 }
                 numberBuffer.setLength(0);
                 userInput.setText("");
                 if(currentRound < roundsToPlay){
-                    currentRound++;
                     question.setText(questions[theRound[currentRound]]);
+                    givenAnswers[currentRound] = answer;
+                    currentRound++;
+
+                }
+                else{
+                    userInput.setText("Ya done, slick");
+                    String msg = "Answers were: ";
+                    for (int i : givenAnswers){
+                        msg += i + ", ";
+                    }
+                    Log.d("TAG", msg);
                 }
             }
         });
