@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 
-public class PreferenceFragment extends PreferenceFragmentCompat implements
+public class SettingsFragment extends PreferenceFragmentCompat implements
         SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey){
@@ -14,7 +14,6 @@ public class PreferenceFragment extends PreferenceFragmentCompat implements
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s){
-
     }
 
     @Override

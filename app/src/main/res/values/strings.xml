@@ -16,4 +16,8 @@
     <string name="lang_de">Tysk</string>
     <string name="lang_explanation">Velg språk</string>
     <string name="length_explanation" >Velg antall spørsmål</string>
+    <string name="cancel">Avbryt</string>
+
+    <string name="sp_key_language" translatable="false">language</string>
+    <string name="sp_key_length" translatable="false">length</string>
 </resources>

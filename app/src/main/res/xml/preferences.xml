@@ -11,8 +11,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!--
+    <PreferenceCategory
+        android:title="@string/preference_language">
+        <Preference
+            android:key="norwegian"
+            android:title="@string/lang_no"
+            android:defaultValue="no"/>
+
+        <Preference
+            android:key="german"
+            android:title="@string/lang_de"
+            android:defaultValue="de"/>
+
+    </PreferenceCategory>
+    -->
+
     <ListPreference
-        android:key="@string/preference_language"
+        android:key="@string/sp_key_language"
         android:title="@string/preference_language"
         android:defaultValue="no"
         android:entries="@array/lang_options_array"
@@ -20,7 +36,7 @@
         android:summary="@string/lang_explanation"/>
 
     <ListPreference
-        android:key="@string/preference_length"
+        android:key="@string/sp_key_length"
         android:title="@string/preference_length"
         android:defaultValue="5"
         android:entries="@array/length_options_array"

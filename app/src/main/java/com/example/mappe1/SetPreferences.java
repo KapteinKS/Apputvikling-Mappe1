@@ -17,21 +17,21 @@ public class SetPreferences extends AppCompatActivity {
         setContentView(R.layout.set_preferences);
     }
 
-    public void norsk(View view) {
+    public void norwegian(View view) {
         setLanguage("no");
         recreate();
     }
 
-    public void deutch(View view) {
+    public void german(View view) {
         setLanguage("de");
         recreate();
     }
 
-    public void setLanguage(String landcode){
+    public void setLanguage(String landCode){
         Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
         Configuration config = res.getConfiguration();
-        config.setLocale(new Locale(landcode));
+        config.setLocale(new Locale(landCode));
         res.updateConfiguration(config, dm);
     }
 }
