@@ -16,7 +16,7 @@ public class Game extends AppCompatActivity {
 
     String[] questions;
     int[] answers;
-    int roundsToPlay = 5; // This should get the data from the preferences.
+    int roundsToPlay = 5; //TODO This should get the data from the preferences.
     int currentRound = 0;
 
     // Creating a numberbuffer
