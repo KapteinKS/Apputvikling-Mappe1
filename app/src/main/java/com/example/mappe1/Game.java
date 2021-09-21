@@ -18,8 +18,8 @@ import java.util.Random;
 public class Game extends AppCompatActivity {
 
 
-    boolean isPlaying = true;
-    int roundsToPlay = 5; //TODO This should get the data from the preferences.
+    boolean isPlaying = false;
+    int roundsToPlay = 10; //TODO This should get the data from the preferences.
     int currentRound = 0;
 
     // Creating a numberbuffer
@@ -52,7 +52,7 @@ public class Game extends AppCompatActivity {
     }
 
     // Method to conclude a round
-    public void finishRound(TextView question, TextView userInput, int[] givenAnswers){
+    public void finishRound(TextView question, TextView userInput, int[] givenAnswers, String[] questions, int[] answers, int[] round){
         question.setText("Ferdig!");
         userInput.setText("Ya done, slick");
         String msg = "Answers were: ";
@@ -60,6 +60,28 @@ public class Game extends AppCompatActivity {
             msg += i + ", ";
         }
         Log.d("TAG", msg);
+
+        // Logic to check whether the given answer is correct or not
+        String[] result = new String[givenAnswers.length];
+        for (int i = 0; i < roundsToPlay; i++){
+            int a = givenAnswers[i];
+            int b = answers[round[i]];
+
+            if (a == b){
+                result[i] = a + " VAR RIKTIG!!!";
+            }
+            else{
+                result[i] = a + " ER FEIL!!! Riktig svar er: " + b;
+            }
+        }
+        String res_msg = "##### Resultater:\n";
+        for (String s : result){
+            res_msg += s + " ##\n## ";
+        }
+        Log.d("TAG", res_msg);
+
+
+
     }
 
     public void showPrompt(View v){
@@ -82,7 +104,6 @@ public class Game extends AppCompatActivity {
         int[] theRound = select_random(roundsToPlay, answers, questions_asked);
         int[] givenAnswers = new int[theRound.length];
 
-
         // DEBUG
         String out = "Runden ble: ";
         for (int i : theRound){
@@ -90,14 +111,13 @@ public class Game extends AppCompatActivity {
         }
         Log.d("TAG", out);
         Log.d("TAG", "\n####Questions_asked: " + questions_asked.toString());
+
         // DEBUG
-
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        TextView question = (TextView)findViewById(R.id.question);
+        TextView questionTextView = (TextView)findViewById(R.id.question);
         TextView userInput = (TextView)findViewById(R.id.userInput);
 
         Button button_backspace = (Button)findViewById(R.id.button_backspace);
@@ -113,11 +133,10 @@ public class Game extends AppCompatActivity {
         Button button_8 = (Button)findViewById(R.id.button_8);
         Button button_9 = (Button)findViewById(R.id.button_9);
 
-        question.setText("");
+        questionTextView.setText("Velkommen til spillet!");
+        userInput.setText("Trykk på ENTER for å starte.");
 
-        //showPrompt(View v);
-
-
+        //showPrompt();
 
         // This is super inefficient. It should not be in onUpdate, I don't think. At least not the refreshing.
         // Certainly there must be a smarter way of doing this..
@@ -213,22 +232,54 @@ public class Game extends AppCompatActivity {
 
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                if (isPlaying){
+                    int answer = Integer.parseInt(numberBuffer.toString());
+                    numberBuffer.setLength(0);
+                    userInput.setText("");
+                    givenAnswers[currentRound] = answer;
+                    currentRound++; // Advance a round
+                    // Check if we're done
+                    if (currentRound >= roundsToPlay){
+                        isPlaying = false;
+                        finishRound(questionTextView, userInput, givenAnswers, questions, answers, theRound);
+                    }
+                    else { // If we're not done, we continue
+                        questionTextView.setText(questions[theRound[currentRound]]);
+                    }
+                }
+                else if(currentRound == 0){
+                    isPlaying = true;
+                    questionTextView.setText(questions[theRound[currentRound]]);
+                    userInput.setText("");
+                }
+            }
+        });
+        //
+        /* Old version TODO: Delete
+        button_enter.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
                 int answer = -1;
                 if (numberBuffer.length() > 0 && isPlaying) {
                     answer = Integer.parseInt(numberBuffer.toString()); // Do something with this answer, but first I shall restructure code.
                 }
                 numberBuffer.setLength(0);
                 userInput.setText("");
-                if(currentRound < roundsToPlay){
-                    question.setText(questions[theRound[currentRound]]);
-                    givenAnswers[currentRound] = answer;
-                    currentRound++;
-                    if (currentRound >= roundsToPlay){
-                        isPlaying = false;
-                        finishRound(question, userInput, givenAnswers);
+                if (!isPlaying){
+                    isPlaying = true;
+                }
+                else{
+                    if(currentRound < roundsToPlay){
+                        questionTextView.setText(questions[theRound[currentRound]]);
+                        givenAnswers[currentRound] = answer; // HERE IS AN ERROR.
+                        currentRound++;
+                        if (currentRound >= roundsToPlay){
+                            isPlaying = false;
+                            finishRound(questionTextView, userInput, givenAnswers, questions, answers, theRound);
+                        }
                     }
                 }
             }
         });
+        */
     }
 }
