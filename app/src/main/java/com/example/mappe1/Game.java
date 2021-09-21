@@ -19,7 +19,7 @@ public class Game extends AppCompatActivity {
 
 
     boolean isPlaying = false;
-    int roundsToPlay = 10; //TODO This should get the data from the preferences.
+    int roundsToPlay = 5; //TODO This should get the data from the preferences.
     int currentRound = 0;
 
     // Creating a numberbuffer
@@ -53,8 +53,6 @@ public class Game extends AppCompatActivity {
 
     // Method to conclude a round
     public void finishRound(TextView question, TextView userInput, int[] givenAnswers, String[] questions, int[] answers, int[] round){
-        question.setText("Ferdig!");
-        userInput.setText("Ya done, slick");
         String msg = "Answers were: ";
         for (int i : givenAnswers){
             msg += i + ", ";
@@ -62,6 +60,7 @@ public class Game extends AppCompatActivity {
         Log.d("TAG", msg);
 
         // Logic to check whether the given answer is correct or not
+        int score = 0;
         String[] result = new String[givenAnswers.length];
         for (int i = 0; i < roundsToPlay; i++){
             int a = givenAnswers[i];
@@ -69,6 +68,7 @@ public class Game extends AppCompatActivity {
 
             if (a == b){
                 result[i] = a + " VAR RIKTIG!!!";
+                score++;
             }
             else{
                 result[i] = a + " ER FEIL!!! Riktig svar er: " + b;
@@ -80,7 +80,9 @@ public class Game extends AppCompatActivity {
         }
         Log.d("TAG", res_msg);
 
-
+        question.setText(R.string.finished);
+        String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
+        userInput.setText(scoremessage);
 
     }
 
@@ -133,8 +135,8 @@ public class Game extends AppCompatActivity {
         Button button_8 = (Button)findViewById(R.id.button_8);
         Button button_9 = (Button)findViewById(R.id.button_9);
 
-        questionTextView.setText("Velkommen til spillet!");
-        userInput.setText("Trykk på ENTER for å starte.");
+        questionTextView.setText(R.string.welcome);
+        userInput.setText(R.string.pressEnterToPlay);
 
         //showPrompt();
 
@@ -232,7 +234,7 @@ public class Game extends AppCompatActivity {
 
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (isPlaying){
+                if (isPlaying && numberBuffer.length() > 0){
                     int answer = Integer.parseInt(numberBuffer.toString());
                     numberBuffer.setLength(0);
                     userInput.setText("");

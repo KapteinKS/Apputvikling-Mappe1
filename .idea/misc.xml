@@ -16,6 +16,9 @@
         <entry key="app/src/main/res/layout/activity_game.xml" value="0.5" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.24625" />
         <entry key="app/src/main/res/layout/set_preferences.xml" value="0.314484126984127" />
+        <entry key="app/src/main/res/layout/statistics.xml" value="0.23125" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.27" />
+        <entry key="app/src/main/res/xml/preferences.xml" value="0.23125" />
       </map>
     </option>
   </component>

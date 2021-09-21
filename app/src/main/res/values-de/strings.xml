@@ -17,4 +17,10 @@
     <string name="lang_explanation">Sprache auswählen</string>
     <string name="length_explanation" >Wählen Sie die Anzahl der Fragen aus</string>
     <string name="cancel">Abbrechen</string>
+
+    <string name="welcome">Willkommen!</string>
+    <string name="pressEnterToPlay">Drücken Sie ⏎ um zu starten!</string>
+    <string name="finished">Das Spiel ist vorbei!</string>
+    <string name="yourscore">Deine Punktzahl war: </string>
+
 </resources>

@@ -24,4 +24,10 @@
     <string name="ok" translatable="false">Denne strengen er ok</string>
     <string name="ikkeok" translatable="false">Denne strengen er IKKE ok</string>
 
+    <string name="welcome">Velkommen!</string>
+    <string name="pressEnterToPlay">Trykk ⏎ for å starte!</string>
+    <string name="finished">Spillet er ferdig!</string>
+    <string name="yourscore">Din score ble: </string>
+
+
 </resources>
