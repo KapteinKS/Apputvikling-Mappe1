@@ -22,5 +22,8 @@
     <string name="pressEnterToPlay">Drücken Sie ⏎ um zu starten!</string>
     <string name="finished">Das Spiel ist vorbei!</string>
     <string name="yourscore">Deine Punktzahl war: </string>
+    <string name="abortwarning">Möchten Sie wirklich stornieren? \nBei einer Unterbrechung wird das Spiel nicht gespeichert.</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
 
 </resources>

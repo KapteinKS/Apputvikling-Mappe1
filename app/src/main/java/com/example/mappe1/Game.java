@@ -1,5 +1,6 @@
 package com.example.mappe1;
 
+import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
@@ -76,14 +78,13 @@ public class Game extends AppCompatActivity {
         }
         String res_msg = "##### Resultater:\n";
         for (String s : result){
-            res_msg += s + " ##\n## ";
+            res_msg += "## " + s + "\n ";
         }
         Log.d("TAG", res_msg);
 
         question.setText(R.string.finished);
         String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
-        userInput.setText(scoremessage);
-
+        userInput.setText(scoremessage + " / " + givenAnswers.length);
     }
 
     public void showPrompt(View v){
@@ -145,13 +146,15 @@ public class Game extends AppCompatActivity {
 
         button_0.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                numberBuffer.append("0");
-                userInput.setText(numberBuffer.toString()); // This should probably be in a onUpdate()
+                if (isPlaying && numberBuffer.length() < 8) {
+                    numberBuffer.append("0");
+                    userInput.setText(numberBuffer.toString()); // This should probably be in a onUpdate()
+                }
             }
         });
         button_1.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (numberBuffer.length() < 8) {
+                if (isPlaying && numberBuffer.length() < 8) {
                     numberBuffer.append("1");
                     userInput.setText(numberBuffer.toString());
                 }
@@ -159,7 +162,7 @@ public class Game extends AppCompatActivity {
         });
         button_2.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (numberBuffer.length() < 8) {
+                if (isPlaying && numberBuffer.length() < 8) {
                     numberBuffer.append("2");
                     userInput.setText(numberBuffer.toString());
                 }
@@ -167,7 +170,7 @@ public class Game extends AppCompatActivity {
         });
         button_3.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (numberBuffer.length() < 8) {
+                if (isPlaying && numberBuffer.length() < 8) {
                     numberBuffer.append("3");
                     userInput.setText(numberBuffer.toString());
                 }
@@ -175,7 +178,7 @@ public class Game extends AppCompatActivity {
         });
         button_4.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (numberBuffer.length() < 8) {
+                if (isPlaying && numberBuffer.length() < 8) {
                     numberBuffer.append("4");
                     userInput.setText(numberBuffer.toString());
                 }
@@ -183,7 +186,7 @@ public class Game extends AppCompatActivity {
         });
         button_5.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (numberBuffer.length() < 8) {
+                if (isPlaying && numberBuffer.length() < 8) {
                     numberBuffer.append("5");
                     userInput.setText(numberBuffer.toString());
                 }
@@ -191,7 +194,7 @@ public class Game extends AppCompatActivity {
         });
         button_6.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (numberBuffer.length() < 8) {
+                if (isPlaying && numberBuffer.length() < 8) {
                     numberBuffer.append("6");
                     userInput.setText(numberBuffer.toString());
                 }
@@ -199,7 +202,7 @@ public class Game extends AppCompatActivity {
         });
         button_7.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (numberBuffer.length() < 8) {
+                if (isPlaying && numberBuffer.length() < 8) {
                     numberBuffer.append("7");
                     userInput.setText(numberBuffer.toString());
                 }
@@ -207,7 +210,7 @@ public class Game extends AppCompatActivity {
         });
         button_8.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (numberBuffer.length() < 8) {
+                if (isPlaying && numberBuffer.length() < 8) {
                     numberBuffer.append("6");
                     userInput.setText(numberBuffer.toString());
                 }
@@ -215,7 +218,7 @@ public class Game extends AppCompatActivity {
         });
         button_9.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (numberBuffer.length() < 8) {
+                if (isPlaying && numberBuffer.length() < 8) {
                     numberBuffer.append("9");
                     userInput.setText(numberBuffer.toString());
                 }
@@ -256,32 +259,32 @@ public class Game extends AppCompatActivity {
                 }
             }
         });
-        //
-        /* Old version TODO: Delete
-        button_enter.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                int answer = -1;
-                if (numberBuffer.length() > 0 && isPlaying) {
-                    answer = Integer.parseInt(numberBuffer.toString()); // Do something with this answer, but first I shall restructure code.
-                }
-                numberBuffer.setLength(0);
-                userInput.setText("");
-                if (!isPlaying){
-                    isPlaying = true;
-                }
-                else{
-                    if(currentRound < roundsToPlay){
-                        questionTextView.setText(questions[theRound[currentRound]]);
-                        givenAnswers[currentRound] = answer; // HERE IS AN ERROR.
-                        currentRound++;
-                        if (currentRound >= roundsToPlay){
-                            isPlaying = false;
-                            finishRound(questionTextView, userInput, givenAnswers, questions, answers, theRound);
-                        }
-                    }
-                }
-            }
-        });
-        */
     }
+    // Method to warn the user if they try to abort the game
+    @Override
+    public void onBackPressed(){
+        if(!isPlaying) { //If the user hasn't started a round, we don't need to warn them
+            finish();
+        }
+        else{
+            AlertDialog.Builder alertDialog_Builder = new AlertDialog.Builder(this);
+            alertDialog_Builder.setCancelable(false);
+            alertDialog_Builder.setMessage(R.string.abortwarning);
+            alertDialog_Builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    // DO STUFF
+                    finish();
+                }
+            });
+            alertDialog_Builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            AlertDialog alertDialog = alertDialog_Builder.create();
+
+            alertDialog.show();
+        }
+    }
+
 }

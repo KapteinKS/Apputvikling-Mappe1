@@ -28,6 +28,9 @@
     <string name="pressEnterToPlay">Trykk ⏎ for å starte!</string>
     <string name="finished">Spillet er ferdig!</string>
     <string name="yourscore">Din score ble: </string>
+    <string name="abortwarning">Sikker på du vil avbryte?\nVed avbrytelse lagres ikke spillet.</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nei</string>
 
 
 </resources>
