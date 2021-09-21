@@ -115,7 +115,7 @@ public class Game extends AppCompatActivity {
 
         question.setText("");
 
-        showPrompt(View v);
+        //showPrompt(View v);
 
 
 
