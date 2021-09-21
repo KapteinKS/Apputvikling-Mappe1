@@ -20,4 +20,8 @@
 
     <string name="sp_key_language" translatable="false">language</string>
     <string name="sp_key_length" translatable="false">length</string>
+
+    <string name="ok" translatable="false">Denne strengen er ok</string>
+    <string name="ikkeok" translatable="false">Denne strengen er IKKE ok</string>
+
 </resources>

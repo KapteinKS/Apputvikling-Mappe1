@@ -8,25 +8,25 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Game extends AppCompatActivity {
 
-    String[] questions;
-    int[] answers;
+
+    boolean isPlaying = true;
     int roundsToPlay = 5; //TODO This should get the data from the preferences.
     int currentRound = 0;
 
     // Creating a numberbuffer
     StringBuilder numberBuffer = new StringBuilder();
-    //ArrayList<Integer> questions_asked = new ArrayList<>();
 
-
-    // Function to select a set number of non-played questions.
+    // Function to generate a round. Selects only unplayed questions.
     static int[] select_random(int roundsToPlay, int[] answers, ArrayList<Integer> questions_asked){
-
         int min = 0;
         int max = answers.length;
 
@@ -47,10 +47,26 @@ public class Game extends AppCompatActivity {
         for (int i = 0; i < round.length; i++){
             round[i] = roundBuffer.get(i);
         }
-
         return round;
 
     }
+
+    // Method to conclude a round
+    public void finishRound(TextView question, TextView userInput, int[] givenAnswers){
+        question.setText("Ferdig!");
+        userInput.setText("Ya done, slick");
+        String msg = "Answers were: ";
+        for (int i : givenAnswers){
+            msg += i + ", ";
+        }
+        Log.d("TAG", msg);
+    }
+
+    public void showPrompt(View v){
+        DialogFragment prompt = new MyPrompt();
+        prompt.show(getSupportFragmentManager(), "Test");
+    }
+
 
 
     @Override
@@ -73,7 +89,6 @@ public class Game extends AppCompatActivity {
             out += " " + i + ": " + questions[i] + "\n";
         }
         Log.d("TAG", out);
-
         Log.d("TAG", "\n####Questions_asked: " + questions_asked.toString());
         // DEBUG
 
@@ -100,12 +115,12 @@ public class Game extends AppCompatActivity {
 
         question.setText("");
 
+        showPrompt(View v);
 
 
-        // This is super inefficiant. It should not be in onUpdate, I don't think. At least not the refreshing.
 
-        // Certainly there is a smarter way of doing this..
-
+        // This is super inefficient. It should not be in onUpdate, I don't think. At least not the refreshing.
+        // Certainly there must be a smarter way of doing this..
 
         button_0.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -199,7 +214,7 @@ public class Game extends AppCompatActivity {
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 int answer = -1;
-                if (numberBuffer.length() > 0) {
+                if (numberBuffer.length() > 0 && isPlaying) {
                     answer = Integer.parseInt(numberBuffer.toString()); // Do something with this answer, but first I shall restructure code.
                 }
                 numberBuffer.setLength(0);
@@ -208,18 +223,12 @@ public class Game extends AppCompatActivity {
                     question.setText(questions[theRound[currentRound]]);
                     givenAnswers[currentRound] = answer;
                     currentRound++;
-
-                }
-                else{
-                    userInput.setText("Ya done, slick");
-                    String msg = "Answers were: ";
-                    for (int i : givenAnswers){
-                        msg += i + ", ";
+                    if (currentRound >= roundsToPlay){
+                        isPlaying = false;
+                        finishRound(question, userInput, givenAnswers);
                     }
-                    Log.d("TAG", msg);
                 }
             }
         });
-
     }
 }
