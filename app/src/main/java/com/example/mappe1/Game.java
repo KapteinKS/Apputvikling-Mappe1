@@ -1,6 +1,8 @@
 package com.example.mappe1;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceManager;
 
 import org.w3c.dom.Text;
 
@@ -19,9 +23,10 @@ import java.util.Random;
 
 public class Game extends AppCompatActivity {
 
+    private Context context;
 
     boolean isPlaying = false;
-    int roundsToPlay = 5; //TODO This should get the data from the preferences.
+    int roundsToPlay; //TODO This should get the data from the preferences.
     int currentRound = 0;
 
     // Creating a numberbuffer
@@ -100,6 +105,10 @@ public class Game extends AppCompatActivity {
         Resources res = getResources();
         String[] questions = res.getStringArray(R.array.questions);
         int[] answers = res.getIntArray(R.array.answers);
+        context = getApplicationContext();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String lengthString = sharedPreferences.getString("length", "5");
+        roundsToPlay = Integer.parseInt(lengthString);
 
         ArrayList<Integer> questions_asked = new ArrayList<>();
 
