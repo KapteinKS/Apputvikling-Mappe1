@@ -19,10 +19,12 @@ import java.util.Random;
 
 public class Game extends AppCompatActivity {
 
-
     boolean isPlaying = false;
     int roundsToPlay = 5; //TODO This should get the data from the preferences.
     int currentRound = 0;
+
+    int[] theRound;
+    int[] givenAnswers;
 
     // Creating a numberbuffer
     StringBuilder numberBuffer = new StringBuilder();
@@ -49,6 +51,13 @@ public class Game extends AppCompatActivity {
         for (int i = 0; i < round.length; i++){
             round[i] = roundBuffer.get(i);
         }
+        // DEBUG
+        String out = "Runden:  ";
+        for (int i : round){
+            out += i + ", ";
+        }
+        Log.d("TAG", out);
+        // DEBUG
         return round;
 
     }
@@ -87,13 +96,6 @@ public class Game extends AppCompatActivity {
         userInput.setText(scoremessage + " / " + givenAnswers.length);
     }
 
-    public void showPrompt(View v){
-        DialogFragment prompt = new MyPrompt();
-        prompt.show(getSupportFragmentManager(), "Test");
-    }
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         // Fetching resources containing the questions and answers to be asked
@@ -104,17 +106,18 @@ public class Game extends AppCompatActivity {
         ArrayList<Integer> questions_asked = new ArrayList<>();
 
         // Selecting which questions are to be asked
-        int[] theRound = select_random(roundsToPlay, answers, questions_asked);
-        int[] givenAnswers = new int[theRound.length];
+        theRound = select_random(roundsToPlay, answers, questions_asked);
+        givenAnswers = new int[theRound.length];
 
         // DEBUG
+        /*
         String out = "Runden ble: ";
         for (int i : theRound){
             out += " " + i + ": " + questions[i] + "\n";
         }
         Log.d("TAG", out);
         Log.d("TAG", "\n####Questions_asked: " + questions_asked.toString());
-
+         */
         // DEBUG
 
         super.onCreate(savedInstanceState);
@@ -138,8 +141,6 @@ public class Game extends AppCompatActivity {
 
         questionTextView.setText(R.string.welcome);
         userInput.setText(R.string.pressEnterToPlay);
-
-        //showPrompt();
 
         // This is super inefficient. It should not be in onUpdate, I don't think. At least not the refreshing.
         // Certainly there must be a smarter way of doing this..
@@ -211,7 +212,7 @@ public class Game extends AppCompatActivity {
         button_8.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("6");
+                    numberBuffer.append("8");
                     userInput.setText(numberBuffer.toString());
                 }
             }
@@ -225,7 +226,6 @@ public class Game extends AppCompatActivity {
             }
         });
 
-
         button_backspace.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if (numberBuffer.length() > 0) {
@@ -235,6 +235,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        // This is where the magic happens
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if (isPlaying && numberBuffer.length() > 0){
@@ -252,10 +253,18 @@ public class Game extends AppCompatActivity {
                         questionTextView.setText(questions[theRound[currentRound]]);
                     }
                 }
-                else if(currentRound == 0){
+                else if(currentRound == 0){ // Startup
                     isPlaying = true;
                     questionTextView.setText(questions[theRound[currentRound]]);
                     userInput.setText("");
+                }
+                else if(currentRound == roundsToPlay){ // If pressed after finishing a round
+                    theRound = select_random(roundsToPlay, answers, questions_asked);
+                    givenAnswers = new int[theRound.length];
+                    currentRound = 0;
+                    questionTextView.setText(questions[theRound[currentRound]]);
+                    userInput.setText("");
+                    isPlaying = true;
                 }
             }
         });
