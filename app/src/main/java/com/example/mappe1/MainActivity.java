@@ -31,18 +31,10 @@ public class MainActivity extends AppCompatActivity {
         listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
                 //Log.d("TAG", key);
-                switch (key){
-                    case "language":
-                        String language = sharedPreferences.getString(getString(R.string.sp_key_language), "no");
-                        setLanguage(language);
-                        recreate();
-                        break;
-                    case "length":
-                        //TODO Vet ikke hvordan du setter lengde
-                        // setLength(length);
-                        break;
-                    default:
-                        return;
+                if ("language".equals(key)) {
+                    String language = sharedPreferences.getString(getString(R.string.sp_key_language), "no");
+                    setLanguage(language);
+                    recreate();
                 }
             }
         };
