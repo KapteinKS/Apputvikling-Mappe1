@@ -99,12 +99,12 @@ public class Game extends AppCompatActivity {
         }
         Log.d("TAG", res_msg);
 
-        question.setText(R.string.finished);
+        userInput.setText(R.string.finished);
         String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
-        userInput.setText(scoremessage + " / " + givenAnswers.length);
 
         String toSave = "Riktige: " + score + " Feil: " + (givenAnswers.length - score);
         writeToFile(toSave, context);
+        question.setText(scoremessage + " / " + givenAnswers.length);
     }
 
     @Override
@@ -250,7 +250,7 @@ public class Game extends AppCompatActivity {
             }
         });
 
-        // This is where the magic happens
+        // This is where the magic happens babyyy
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if (isPlaying && numberBuffer.length() > 0){
@@ -273,13 +273,30 @@ public class Game extends AppCompatActivity {
                     questionTextView.setText(questions[theRound[currentRound]]);
                     userInput.setText("");
                 }
-                else if(currentRound == roundsToPlay){ // If pressed after finishing a round
+                else if(currentRound == roundsToPlay){ // If ENTER is pressed after finishing a round, meaning user wishes to play new questions.
                     theRound = select_random(roundsToPlay, answers, questions_asked);
-                    givenAnswers = new int[theRound.length];
-                    currentRound = 0;
-                    questionTextView.setText(questions[theRound[currentRound]]);
-                    userInput.setText("");
-                    isPlaying = true;
+                    if (theRound.length <= 0){ // If we've run out of questions
+                        questionTextView.setText(R.string.outOfQuestions);
+                        userInput.setText("");
+                    }
+                    else if (theRound.length < roundsToPlay){ // If we have questions left, but not enough.
+                        String notEnoughQuestions_1 = getResources().getString(R.string.notEnoughQuestions_1);
+                        String notEnoughQuestions_2 = getResources().getString(R.string.notEnoughQuestions_2);
+                        questionTextView.setText(notEnoughQuestions_1 + roundsToPlay + notEnoughQuestions_2);
+                        userInput.setText(R.string.enterToContinue);
+                        givenAnswers = new int[theRound.length];
+                        roundsToPlay = theRound.length;
+                        isPlaying = false;
+                        currentRound = 0;
+                        //userInput.setText("");
+                    }
+                    else { // If we've enough questions left
+                        givenAnswers = new int[theRound.length];
+                        currentRound = 0;
+                        questionTextView.setText(questions[theRound[currentRound]]);
+                        userInput.setText("");
+                        isPlaying = true;
+                    }
                 }
             }
         });
