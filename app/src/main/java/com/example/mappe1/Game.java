@@ -18,6 +18,7 @@ import androidx.preference.PreferenceManager;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -119,6 +120,16 @@ public class Game extends AppCompatActivity {
         roundsToPlay = Integer.parseInt(lengthString);
 
         ArrayList<Integer> questions_asked = new ArrayList<>();
+
+        File file = new File(context.getFilesDir(), "high-score-storage.txt");
+
+        if (!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                Log.e("TAG", "Could not create file");
+            }
+        }
 
         // Selecting which questions are to be asked
         theRound = select_random(roundsToPlay, answers, questions_asked);
