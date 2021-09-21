@@ -19,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class Statistics extends AppCompatActivity {
+    private Context context;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -27,6 +28,8 @@ public class Statistics extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.stat_toolbar);
         toolbar.inflateMenu(R.menu.stat_toolbar);
         setActionBar(toolbar);
+
+        context = getApplicationContext();
 
         Context context = getApplicationContext();
         File file = new File(context.getFilesDir(), "high-score-storage.txt");
@@ -98,6 +101,7 @@ public class Statistics extends AppCompatActivity {
                 StringBuilder stringBuilder = new StringBuilder();
 
                 while ((receiveString = bufferedReader.readLine()) != null){
+                    Log.e("READ", receiveString);
                     stringBuilder.append("\n").append(receiveString);
                 }
 
@@ -113,28 +117,13 @@ public class Statistics extends AppCompatActivity {
         return ret;
     }
 
-    public boolean WriteToFile(String data, Context context){
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("high-score-storage.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-            return true;
-        }catch (IOException e){
-            Log.e("Exception", "File write failed: " + e.toString());
-            return false;
-        }
-    }
+
 
     public void deleteStats(){
         try {
-            String data = "";
-            File outFile = new File(getExternalFilesDir(".txt"), "high-score-storage.txt");
-            FileOutputStream out = new FileOutputStream(outFile, false);
-            byte[] contents = data.getBytes();
-            out.write(contents);
-            out.flush();
-            out.close();
-            Log.e("DELETED", "Statistics deleted");
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("high-score-storage.txt", Context.MODE_PRIVATE));
+            outputStreamWriter.write("");
+            outputStreamWriter.close();
         } catch (IOException e){
             Log.e("Exception", "File write failed: " + e.toString());
         }

@@ -18,6 +18,8 @@ import androidx.preference.PreferenceManager;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -100,6 +102,9 @@ public class Game extends AppCompatActivity {
         question.setText(R.string.finished);
         String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
         userInput.setText(scoremessage + " / " + givenAnswers.length);
+
+        String toSave = "Riktige: " + score + " Feil: " + (givenAnswers.length - score);
+        writeToFile(toSave, context);
     }
 
     @Override
@@ -303,6 +308,18 @@ public class Game extends AppCompatActivity {
             AlertDialog alertDialog = alertDialog_Builder.create();
 
             alertDialog.show();
+        }
+    }
+    public boolean writeToFile(String data, Context context){
+        try {
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("high-score-storage.txt", Context.MODE_APPEND));
+            outputStreamWriter.append(data);
+            outputStreamWriter.append("\n");
+            outputStreamWriter.close();
+            return true;
+        }catch (IOException e){
+            Log.e("Exception", "File write failed: " + e.toString());
+            return false;
         }
     }
 
