@@ -24,7 +24,7 @@ import java.util.Random;
 public class Game extends AppCompatActivity {
 
     private Context context;
-    
+
     boolean isPlaying = false;
     int roundsToPlay; //TODO This should get the data from the preferences.
     int currentRound = 0;
