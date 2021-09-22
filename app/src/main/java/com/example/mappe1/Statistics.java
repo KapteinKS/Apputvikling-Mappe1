@@ -113,7 +113,6 @@ public class Statistics extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return ret;
     }
 

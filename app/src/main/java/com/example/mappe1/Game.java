@@ -29,7 +29,7 @@ public class Game extends AppCompatActivity {
     private Context context;
 
     boolean isPlaying = false;
-    int roundsToPlay; //TODO This should get the data from the preferences.
+    int roundsToPlay = 5; //TODO This should get the data from the preferences.
     int currentRound = 0;
 
     int[] theRound;
@@ -293,7 +293,7 @@ public class Game extends AppCompatActivity {
                     else if (theRound.length < roundsToPlay){ // If we have questions left, but not enough.
                         String notEnoughQuestions_1 = getResources().getString(R.string.notEnoughQuestions_1);
                         String notEnoughQuestions_2 = getResources().getString(R.string.notEnoughQuestions_2);
-                        questionTextView.setText(notEnoughQuestions_1 + roundsToPlay + notEnoughQuestions_2);
+                        questionTextView.setText(notEnoughQuestions_1 + theRound.length + notEnoughQuestions_2);
                         userInput.setText(R.string.enterToContinue);
                         givenAnswers = new int[theRound.length];
                         roundsToPlay = theRound.length;
