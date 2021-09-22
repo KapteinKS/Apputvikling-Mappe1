@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -165,8 +166,14 @@ public class Game extends AppCompatActivity {
         Button button_8 = (Button)findViewById(R.id.button_8);
         Button button_9 = (Button)findViewById(R.id.button_9);
 
-        questionTextView.setText(R.string.welcome);
-        userInput.setText(R.string.pressEnterToPlay);
+        // questionTextView.setText(R.string.welcome);
+        // userInput.setText(R.string.pressEnterToPlay);
+
+        TextView prompt_background = (TextView)findViewById(R.id.prompt_background);
+        ImageView prompt_image = (ImageView)findViewById(R.id.prompt_image);
+        TextView prompt_header = (TextView)findViewById(R.id.prompt_header);
+        TextView prompt_text = (TextView)findViewById(R.id.prompt_text);
+
 
         // This is super inefficient. It should not be in onUpdate, I don't think. At least not the refreshing.
         // Certainly there must be a smarter way of doing this..
@@ -264,6 +271,58 @@ public class Game extends AppCompatActivity {
         // This is where the magic happens babyyy
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+
+
+                // TODO: MOVE THIS SOMEWHERE ELSE FFS
+                if(isPlaying){
+                    prompt_background.setVisibility(View.INVISIBLE);
+                    prompt_image.setVisibility(View.INVISIBLE);
+                    prompt_header.setVisibility(View.INVISIBLE);
+                    prompt_text.setVisibility(View.INVISIBLE);
+
+                    button_0.setVisibility(View.VISIBLE);
+                    button_1.setVisibility(View.VISIBLE);
+                    button_2.setVisibility(View.VISIBLE);
+                    button_3.setVisibility(View.VISIBLE);
+                    button_4.setVisibility(View.VISIBLE);
+                    button_5.setVisibility(View.VISIBLE);
+                    button_6.setVisibility(View.VISIBLE);
+                    button_7.setVisibility(View.VISIBLE);
+                    button_8.setVisibility(View.VISIBLE);
+                    button_9.setVisibility(View.VISIBLE);
+                    button_backspace.setVisibility(View.VISIBLE);
+
+                    questionTextView.setVisibility(View.VISIBLE);
+                    userInput.setVisibility(View.VISIBLE);
+                }
+                if (!isPlaying){
+                    button_0.setVisibility(View.INVISIBLE);
+                    button_1.setVisibility(View.INVISIBLE);
+                    button_2.setVisibility(View.INVISIBLE);
+                    button_3.setVisibility(View.INVISIBLE);
+                    button_4.setVisibility(View.INVISIBLE);
+                    button_5.setVisibility(View.INVISIBLE);
+                    button_6.setVisibility(View.INVISIBLE);
+                    button_7.setVisibility(View.INVISIBLE);
+                    button_8.setVisibility(View.INVISIBLE);
+                    button_9.setVisibility(View.INVISIBLE);
+                    button_backspace.setVisibility(View.INVISIBLE);
+
+                    questionTextView.setVisibility(View.INVISIBLE);
+                    userInput.setVisibility(View.INVISIBLE);
+
+                    prompt_background.setVisibility(View.VISIBLE);
+                    prompt_image.setVisibility(View.VISIBLE);
+                    prompt_header.setVisibility(View.VISIBLE);
+                    prompt_text.setVisibility(View.VISIBLE);
+
+                }
+
+
+
+
+
+
                 if (isPlaying && numberBuffer.length() > 0){
                     int answer = Integer.parseInt(numberBuffer.toString());
                     numberBuffer.setLength(0);

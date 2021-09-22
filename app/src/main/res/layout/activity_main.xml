@@ -36,10 +36,9 @@
 
     <ImageButton
         android:id="@+id/imageButton5"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_marginStart="157dp"
-        android:layout_marginTop="488dp"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="376dp"
         android:background="@null"
         android:onClick="startGame"
         android:scaleType="fitCenter"
@@ -53,34 +52,32 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="98dp"
         android:fontFamily="@font/rum_raisin"
-        android:text="TextView"
+        android:text="@string/title"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="64sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/title" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="426dp"
+        android:layout_marginTop="316dp"
         android:fontFamily="@font/rum_raisin"
-        android:text="TextView"
+        android:text="@string/subtitle"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/subtitle" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
         android:layout_marginTop="140dp"
         android:adjustViewBounds="true"
         app:layout_constraintEnd_toEndOf="parent"
