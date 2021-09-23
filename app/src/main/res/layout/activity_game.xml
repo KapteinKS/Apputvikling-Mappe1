@@ -53,6 +53,7 @@
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="64dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -71,6 +72,7 @@
         android:textColor="@color/black"
         android:textSize="34sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -109,6 +111,7 @@
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -127,6 +130,7 @@
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -145,6 +149,7 @@
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -163,6 +168,7 @@
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -181,6 +187,7 @@
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="100dp"
         app:iconPadding="0dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -200,6 +207,7 @@
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -218,6 +226,7 @@
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="100dp"
         app:iconPadding="0dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -237,6 +246,7 @@
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -255,6 +265,7 @@
         android:textColor="@color/black"
         android:textSize="32sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:cornerRadius="100dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -273,10 +284,12 @@
         android:id="@+id/prompt_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="196dp"
+        android:layout_marginTop="184dp"
+        android:fontFamily="@font/rum_raisin"
         android:text="TEMPORARY!"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textColor="@color/black"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -296,7 +309,12 @@
         android:layout_height="285dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="232dp"
+        android:fontFamily="@font/rum_raisin"
+        android:lineSpacingExtra="8sp"
         android:text="Some more temp text"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -5,7 +5,7 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color_blue"
+    android:background="@color/blue"
     tools:context=".MainActivity">
 
     <ImageButton
@@ -54,7 +54,7 @@
         android:fontFamily="@font/rum_raisin"
         android:text="@string/title"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="64sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -67,7 +67,7 @@
         android:fontFamily="@font/rum_raisin"
         android:text="@string/subtitle"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
