@@ -1,38 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="questions">
-        <item>25 + 38</item>
-        <item>125 + 154</item>
-        <item>358 + 132</item>
-        <item>59 + 428</item>
-        <item>195 + 302</item>
-        <item>411 + 94</item>
-        <item>236 + 91</item>
-        <item>119 + 485</item>
-        <item>497 + 71</item>
-        <item>262 + 433</item>
-        <item>51 + 416</item>
-        <item>252 + 282</item>
-        <item>181 + 260</item>
-        <item>42 + 105</item>
-        <item>69 + 420</item>
+        <!-- All values provided by random number generator, between 1 and 99 -->
+        <item>53 + 20</item>
+        <item>83 + 89</item>
+        <item>16 + 79</item>
+        <item>22 + 19</item>
+        <item>30 + 87</item>
+        <item>45 + 49</item>
+        <item>21 + 4</item>
+        <item>25 + 62</item>
+        <item>13 + 50</item>
+        <item>24 + 37</item>
+        <item>41 + 34</item>
+        <item>55 + 40</item>
+        <item>81 + 38</item>
+        <item>92 + 9</item>
+        <item>18 + 15</item>
     </string-array>
 
     <integer-array name="answers">
+        <item>73</item>
+        <item>172</item>
+        <item>95</item>
+        <item>41</item>
+        <item>117</item>
+        <item>94</item>
+        <item>25</item>
+        <item>87</item>
         <item>63</item>
-        <item>279</item>
-        <item>490</item>
-        <item>487</item>
-        <item>497</item>
-        <item>505</item>
-        <item>327</item>
-        <item>604</item>
-        <item>568</item>
-        <item>695</item>
-        <item>467</item>
-        <item>534</item>
-        <item>441</item>
-        <item>147</item>
-        <item>489</item>
+        <item>61</item>
+        <item>75</item>
+        <item>95</item>
+        <item>119</item>
+        <item>101</item>
+        <item>33</item>
     </integer-array>
 </resources>
