@@ -47,7 +47,10 @@
 
     <string name="title">MatteKatt</string>
     <string name="subtitle">Lær addisjon!</string>
-    <string name="good_job">Bra jobba!</string>
+    <string name="bad_job">Runde ferdig!</string>
+    <string name="good_job">Godt spilt!</string>
+    <string name="great_job">Bra jobba!</string>
+    <string name="perfect_job">Alt rett!! Supert!</string>
     <string name="delete_warning">Er du sikker?\nAll statistikk vil bli slettet!</string>
 
 

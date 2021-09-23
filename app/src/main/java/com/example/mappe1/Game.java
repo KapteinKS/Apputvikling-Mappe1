@@ -98,7 +98,7 @@ public class Game extends AppCompatActivity {
 
     // Method to conclude a round
     public void finishRound(View v, int[] answers, int[] round){
-        String msg = "Answers were: ";
+        String msg = "Answers were: "; // TODO: Replace all these internal strings
         for (int i : givenAnswers){
             msg += i + ", ";
         }
@@ -125,8 +125,24 @@ public class Game extends AppCompatActivity {
         }
         Log.d("TAG", res_msg);
 
+        String temp_prompt_header = "";
+        if (score == roundsToPlay){
+            temp_prompt_header = getString(R.string.perfect_job);
+            prompt_image.setImageResource(R.drawable.mattekatt_excited2);
+        }
+        else if (score > (int)roundsToPlay/2 && score < roundsToPlay){
+            temp_prompt_header = getString(R.string.great_job);
+            prompt_image.setImageResource(R.drawable.mattekatt_excited1);
+        }
+        else if (score > (int)roundsToPlay/4 && score <= (int)roundsToPlay/2){
+            temp_prompt_header = getString(R.string.good_job);
+            prompt_image.setImageResource(R.drawable.mattekatt_excited1);
+        }
+        else{
+            temp_prompt_header = getString(R.string.bad_job);
+            prompt_image.setImageResource(R.drawable.mattekatt);
+        }
 
-        String temp_prompt_header = getString(R.string.good_job);
         String temp_prompt_text = this.getResources().getString(R.string.yourscore) + " "
                 + score + " / " + givenAnswers.length + "\n" + this.getResources().getString(R.string.finished);
 
