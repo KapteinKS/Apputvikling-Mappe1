@@ -16,7 +16,7 @@
         android:text="@string/statistics_headline"
         android:textSize="34sp"
         android:textColor="@color/white"
-        android:fontFamily="@font/rum_raisin"
+        android:fontFamily="@font/rum_raisin_regular"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,7 +44,7 @@
                 android:text="@string/correct"
                 android:textSize="24sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/rum_raisin"
+                android:fontFamily="@font/rum_raisin_regular"
                 android:visibility="invisible" />
 
             <TextView
@@ -56,7 +56,7 @@
                 android:text="@string/wrong"
                 android:textSize="24sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/rum_raisin"
+                android:fontFamily="@font/rum_raisin_regular"
                 android:visibility="invisible" />
         </TableRow>
 
@@ -74,7 +74,7 @@
                 android:gravity="center_horizontal"
                 android:textSize="24sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/rum_raisin"/>
+                android:fontFamily="@font/rum_raisin_regular"/>
 
             <TextView
                 android:id="@+id/number_wrong"
@@ -84,7 +84,7 @@
                 android:gravity="center_horizontal"
                 android:textSize="24sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/rum_raisin"/>
+                android:fontFamily="@font/rum_raisin_regular"/>
         </TableRow>
     </TableLayout>
 

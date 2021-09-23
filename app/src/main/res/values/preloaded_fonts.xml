@@ -2,6 +2,6 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/bangers</item>
-        <item>@font/rum_raisin</item>
+        <item>@font/rum_raisin_regular</item>
     </array>
 </resources>

@@ -48,6 +48,7 @@
     <string name="title">MatteKatt</string>
     <string name="subtitle">Lær addisjon!</string>
     <string name="good_job">Bra jobba!</string>
+    <string name="delete_warning">Er du sikker?\nAll statistikk vil bli slettet!</string>
 
 
 </resources>
