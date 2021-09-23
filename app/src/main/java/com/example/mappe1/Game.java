@@ -30,7 +30,7 @@ public class Game extends AppCompatActivity {
     private Context context;
 
     boolean isPlaying = false;
-    int roundsToPlay = 5; //TODO This should get the data from the preferences.
+    int roundsToPlay; //Length set from preferences in onCreate, default = 5
     int currentRound = 0;
 
     int[] theRound;
