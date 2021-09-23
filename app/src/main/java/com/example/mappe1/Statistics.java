@@ -1,17 +1,14 @@
 package com.example.mappe1;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -121,8 +118,7 @@ public class Statistics extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        int[] ret = {correct, wrong};
-        return ret;
+        return new int[]{correct, wrong};
     }
 
     public void deleteStats(View view){
