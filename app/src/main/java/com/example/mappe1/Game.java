@@ -33,6 +33,8 @@ public class Game extends AppCompatActivity {
     int roundsToPlay; //Length set from preferences in onCreate, default = 5
     int currentRound = 0;
 
+    String [] questions;
+
     int[] theRound;
     int[] givenAnswers;
 
@@ -60,8 +62,6 @@ public class Game extends AppCompatActivity {
     ImageView prompt_image;
     TextView prompt_header;
     TextView prompt_text;
-
-
 
     // Function to generate a round. Selects only unplayed questions.
     static int[] select_random(int roundsToPlay, int[] answers, ArrayList<Integer> questions_asked){
@@ -111,14 +111,20 @@ public class Game extends AppCompatActivity {
             int a = givenAnswers[i];
             int b = answers[round[i]];
 
+            String result_line = "1: " + questions[round[i]] + " = ";
+
             if (a == b){
-                result[i] = a + " VAR RIKTIG!!!";
+                result_line += a + "Er riktig!";
                 score++;
             }
             else{
-                result[i] = a + " ER FEIL!!! Riktig svar er: " + b;
+                result_line += a + " ER FEIL!!! Riktig svar er: " + b + "\n";
             }
+            result[i] = result_line;
+
         }
+
+        // LOG
         String res_msg = "##### Resultater:\n";
         for (String s : result){
             res_msg += "## " + s + "\n ";
@@ -143,8 +149,14 @@ public class Game extends AppCompatActivity {
             prompt_image.setImageResource(R.drawable.mattekatt);
         }
 
-        String temp_prompt_text = this.getResources().getString(R.string.yourscore) + " "
-                + score + " / " + givenAnswers.length + "\n" + this.getResources().getString(R.string.finished);
+
+        // TODO: Format this nicelier. Will it look horrible with 15 questions????
+        String temp_prompt_text = "##### Resultater:\n";
+        for (String s : result){
+            temp_prompt_text += "## " + s + "\n ";
+        }
+
+        temp_prompt_text += "\n##FIX" + this.getResources().getString(R.string.yourscore) + " " + score + " / " + givenAnswers.length + "\n" + this.getResources().getString(R.string.finished);
 
         //String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
 
@@ -264,7 +276,7 @@ public class Game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         // Fetching resources containing the questions and answers to be asked
         Resources res = getResources();
-        String[] questions = res.getStringArray(R.array.questions);
+        questions = res.getStringArray(R.array.questions);
         int[] answers = res.getIntArray(R.array.answers);
         context = getApplicationContext();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -450,7 +462,7 @@ public class Game extends AppCompatActivity {
                     }
                     else if (theRound.length < roundsToPlay){ // If we have questions left, but not enough.
 
-                        String temp_prompt_header = "Bra jobba!";
+                        String temp_prompt_header = getResources().getString(R.string.bad_job);
 
                         String temp_prompt_text = getResources().getString(R.string.notEnoughQuestions_1)
                                 + theRound.length + getResources().getString(R.string.notEnoughQuestions_2)
