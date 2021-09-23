@@ -104,7 +104,7 @@ public class Game extends AppCompatActivity {
         userInput.setText(R.string.finished);
         String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
 
-        String toSave = "Riktige: " + score + " Feil: " + (givenAnswers.length - score);
+        String toSave = score + "," + (givenAnswers.length - score);
         writeToFile(toSave, context);
         question.setText(scoremessage + " / " + givenAnswers.length);
     }

@@ -4,7 +4,7 @@
     <string name="start_game">Spiele starten</string>
     <string name="statistics">Siehe Statistik</string>
     <string name="preferences">Vorlieben</string>
-    <string name="statistics_headline">Höchste Punktzahl</string>
+    <string name="statistics_headline">Gesamtpunktzahl</string>
     <string name="delete_stats">Statistiken löschen</string>
     <string name="five_q_game">5 Fragen</string>
     <string name="ten_q_game">10 Fragen</string>
@@ -17,6 +17,9 @@
     <string name="lang_explanation">Sprache auswählen</string>
     <string name="length_explanation" >Wählen Sie die Anzahl der Fragen aus</string>
     <string name="cancel">Abbrechen</string>
+
+    <string name="correct">Korrekt</string>
+    <string name="wrong">Fehler</string>
 
     <string name="welcome">Willkommen!</string>
     <string name="pressEnterToPlay">Drücken Sie ⏎ um zu starten!</string>

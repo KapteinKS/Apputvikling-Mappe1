@@ -15,7 +15,6 @@
         android:key="@string/sp_key_language"
         android:title="@string/preference_language"
         android:icon="@drawable/flagg"
-        
         android:defaultValue="no"
         android:entries="@array/lang_options_array"
         android:entryValues="@array/lang_values_array"

@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TableLayout;
+import android.widget.TextView;
 import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -20,16 +22,15 @@ import java.io.OutputStreamWriter;
 
 public class Statistics extends AppCompatActivity {
     private Context context;
+    TableLayout tableLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.statistics);
-        Toolbar toolbar = findViewById(R.id.stat_toolbar);
-        toolbar.inflateMenu(R.menu.stat_toolbar);
-        setActionBar(toolbar);
 
         context = getApplicationContext();
+        tableLayout = findViewById(R.id.highScoreLayout);
 
         Context context = getApplicationContext();
         File file = new File(context.getFilesDir(), "high-score-storage.txt");
@@ -41,56 +42,60 @@ public class Statistics extends AppCompatActivity {
             Log.e("TAG", "Could not create file");
             }
         }
+        viewStatistics();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.stat_toolbar, menu);
-        return true;
-    }
-
-
-    //TODO implement delete statistics, and switch between 5,10,15 question games
-    @SuppressLint("NonConstantResourceId")
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case R.id.delete_stats:
-                deleteStats();
-                break;
-            case R.id.five_q_game:
-                viewFiveQuestionGames();
-                break;
-            case R.id.ten_q_game:
-                viewTenQuestionGames();
-                break;
-            case R.id.fifteen_q_game:
-                viewFifteenQuestionsGames();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-        return true;
-    }
-
-    private void viewFiveQuestionGames() {
-        String full = readFromFile(getApplicationContext());
+    private void viewStatistics() {
+        int[] scores = readFromFile(getApplicationContext());
         //Todo find only 5 question games from the string full
+
+        TextView numberCorrect = findViewById(R.id.number_correct);
+        TextView numberWrong = findViewById(R.id.number_wrong);
+
+        hide();
+
+        String textCorrect = "" + scores[0];
+        String textWrong = "" + scores[1];
+
+        numberCorrect.setText(textCorrect);
+        numberWrong.setText(textWrong);
     }
 
-    private void viewTenQuestionGames() {
-        String full = readFromFile(getApplicationContext());
-        //Todo find only 10 question games from the string full
+    public void hide(){
+        TextView correct = findViewById(R.id.correct);
+        TextView wrong = findViewById(R.id.wrong);
+
+        if (correct.getVisibility() == View.VISIBLE){
+            correct.setVisibility(View.INVISIBLE);
+        } else {
+            correct.setVisibility(View.VISIBLE);
+        }
+
+        if (wrong.getVisibility() == View.VISIBLE){
+            wrong.setVisibility(View.INVISIBLE);
+        } else {
+            wrong.setVisibility(View.VISIBLE);
+        }
     }
 
-    private void viewFifteenQuestionsGames() {
-        String full = readFromFile(getApplicationContext());
-        //Todo find only 15 question games from the string full
+    /*
+    public void addTableRow(String text){
+        TableRow tableRow = new TableRow(this);
+        tableRow.setLayoutParams(new TableLayout.
+                LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+                TableRow.LayoutParams.WRAP_CONTENT));
+        TextView textView1 = new TextView(this);
+        textView1.setLayoutParams(new TableRow.LayoutParams(
+                TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
+        textView1.setText(text);
+        tableRow.addView(textView1);
+        tableLayout.addView(tableRow);
     }
+     */
 
-    private String readFromFile(Context context){
-        String ret = "";
+    private int[] readFromFile(Context context){
+        int correct = 0;
+        int wrong = 0;
 
         try {
             InputStream is = context.openFileInput("high-score-storage.txt");
@@ -98,31 +103,34 @@ public class Statistics extends AppCompatActivity {
                 InputStreamReader isReader = new InputStreamReader(is);
                 BufferedReader bufferedReader = new BufferedReader(isReader);
                 String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
 
                 while ((receiveString = bufferedReader.readLine()) != null){
                     Log.e("READ", receiveString);
-                    stringBuilder.append("\n").append(receiveString);
+                    String[] read = receiveString.split(",");
+                    correct += Integer.parseInt(read[0]);
+                    wrong += Integer.parseInt(read[1]);
+                    //addTableRow(receiveString);
                 }
 
                 is.close();
-                ret = stringBuilder.toString();
+
             }
         } catch (FileNotFoundException e){
             Log.e("login activity", "File not found: " + e.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        int[] ret = {correct, wrong};
         return ret;
     }
 
-
-
-    public void deleteStats(){
+    public void deleteStats(View view){
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("high-score-storage.txt", Context.MODE_PRIVATE));
             outputStreamWriter.write("");
             outputStreamWriter.close();
+            recreate();
         } catch (IOException e){
             Log.e("Exception", "File write failed: " + e.toString());
         }

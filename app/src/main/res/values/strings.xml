@@ -3,7 +3,7 @@
     <string name="start_game">▶</string>
     <string name="statistics">Se statistikk</string>
     <string name="preferences">Preferanser</string>
-    <string name="statistics_headline">Høyeste poengsum</string>
+    <string name="statistics_headline">Sammenlagt poengsum</string>
     <string name="delete_stats">Slett statistikk</string>
     <string name="five_q_game">5 spørsmål</string>
     <string name="ten_q_game">10 spørsmål</string>
@@ -16,6 +16,9 @@
     <string name="lang_explanation">Velg språk</string>
     <string name="length_explanation" >Velg antall spørsmål</string>
     <string name="cancel">Avbryt</string>
+    <string name="main_headline">DELETE ME!</string>
+    <string name="correct">Riktige</string>
+    <string name="wrong">Feil</string>
 
     <string name="sp_key_language" translatable="false">language</string>
     <string name="sp_key_length" translatable="false">length</string>
@@ -37,7 +40,7 @@
 
     <string name="title">MatteKatt</string>
     <string name="subtitle">Lær addisjon!</string>
-    <string name="main_headline">DELETE ME!</string>
+
 
 
 </resources>
