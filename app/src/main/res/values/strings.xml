@@ -1,13 +1,19 @@
 <resources>
     <string name="app_name">Mappe1</string>
+
     <string name="start_game">▶</string>
+
     <string name="statistics">Se statistikk</string>
+
     <string name="preferences">Preferanser</string>
+
     <string name="statistics_headline">Sammenlagt poengsum</string>
     <string name="delete_stats">Slett statistikk</string>
+
     <string name="five_q_game">5 spørsmål</string>
     <string name="ten_q_game">10 spørsmål</string>
     <string name="fifteen_q_game">15 spørsmål</string>
+
     <string name="preference_length">Antall spørsmål</string>
     <string name="preference_language">Språk</string>
     <string name="preference_headline">Preferanser</string>
@@ -16,7 +22,7 @@
     <string name="lang_explanation">Velg språk</string>
     <string name="length_explanation" >Velg antall spørsmål</string>
     <string name="cancel">Avbryt</string>
-    <string name="main_headline">DELETE ME!</string>
+
     <string name="correct">Riktige</string>
     <string name="wrong">Feil</string>
 
@@ -41,7 +47,7 @@
 
     <string name="title">MatteKatt</string>
     <string name="subtitle">Lær addisjon!</string>
-
+    <string name="good_job">Bra jobba!</string>
 
 
 </resources>

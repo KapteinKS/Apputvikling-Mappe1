@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="lang_options_array">
-        <item>Norsk</item>
+        <item>Norwegische</item>
         <item>Deutche</item>
     </string-array>
     <string-array name="lang_values_array">

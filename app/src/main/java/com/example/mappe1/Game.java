@@ -126,7 +126,7 @@ public class Game extends AppCompatActivity {
         Log.d("TAG", res_msg);
 
 
-        String temp_prompt_header = "BRA JOBBA!";
+        String temp_prompt_header = getString(R.string.good_job);
         String temp_prompt_text = this.getResources().getString(R.string.yourscore) + " "
                 + score + " / " + givenAnswers.length + "\n" + this.getResources().getString(R.string.finished);
 
