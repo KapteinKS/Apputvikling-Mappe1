@@ -39,6 +39,30 @@ public class Game extends AppCompatActivity {
     // Creating a numberbuffer
     StringBuilder numberBuffer = new StringBuilder();
 
+
+    TextView questionTextView;
+    TextView userInput;
+
+    Button button_backspace;
+    Button button_enter;
+    Button button_0;
+    Button button_1;
+    Button button_2;
+    Button button_3;
+    Button button_4;
+    Button button_5;
+    Button button_6;
+    Button button_7;
+    Button button_8;
+    Button button_9;
+
+    TextView prompt_background;
+    ImageView prompt_image;
+    TextView prompt_header;
+    TextView prompt_text;
+
+
+
     // Function to generate a round. Selects only unplayed questions.
     static int[] select_random(int roundsToPlay, int[] answers, ArrayList<Integer> questions_asked){
         int min = 0;
@@ -73,7 +97,7 @@ public class Game extends AppCompatActivity {
     }
 
     // Method to conclude a round
-    public void finishRound(TextView question, TextView userInput, int[] givenAnswers, String[] questions, int[] answers, int[] round){
+    public void finishRound(View v, int[] answers, int[] round){
         String msg = "Answers were: ";
         for (int i : givenAnswers){
             msg += i + ", ";
@@ -101,13 +125,124 @@ public class Game extends AppCompatActivity {
         }
         Log.d("TAG", res_msg);
 
-        userInput.setText(R.string.finished);
+
+        String temp_prompt_header = "BRA JOBBA!";
+        String temp_prompt_text = this.getResources().getString(R.string.yourscore) + " "
+                + score + " / " + givenAnswers.length + "\n" + this.getResources().getString(R.string.finished);
+
+        //String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
+
+        String toSave = "Riktige: " + score + " Feil: " + (givenAnswers.length - score);
+        writeToFile(toSave, context);
+
+        setPrompt(v, temp_prompt_header, temp_prompt_text);
+
+        questionTextView.setText("");
+        //String finished = this.getResources().getString(R.string.finished);
+        userInput.setText("");
+
+        //prompt_text.setText(scoremessage + " / " + givenAnswers.length + "\n" + finished);
+
+    }
+
+    // Simple method to hide & show a prompt
+    public void setPrompt(View v, String header, String text){
+        if (header == "CLEAR"){
+            prompt_background.setVisibility(View.INVISIBLE);
+            prompt_image.setVisibility(View.INVISIBLE);
+            prompt_header.setVisibility(View.INVISIBLE);
+            prompt_text.setVisibility(View.INVISIBLE);
+
+            button_0.setVisibility(View.VISIBLE);
+            button_1.setVisibility(View.VISIBLE);
+            button_2.setVisibility(View.VISIBLE);
+            button_3.setVisibility(View.VISIBLE);
+            button_4.setVisibility(View.VISIBLE);
+            button_5.setVisibility(View.VISIBLE);
+            button_6.setVisibility(View.VISIBLE);
+            button_7.setVisibility(View.VISIBLE);
+            button_8.setVisibility(View.VISIBLE);
+            button_9.setVisibility(View.VISIBLE);
+            button_backspace.setVisibility(View.VISIBLE);
+            questionTextView.setVisibility(View.VISIBLE);
+            userInput.setVisibility(View.VISIBLE);
+        }
+        else{
+            button_0.setVisibility(View.INVISIBLE);
+            button_1.setVisibility(View.INVISIBLE);
+            button_2.setVisibility(View.INVISIBLE);
+            button_3.setVisibility(View.INVISIBLE);
+            button_4.setVisibility(View.INVISIBLE);
+            button_5.setVisibility(View.INVISIBLE);
+            button_6.setVisibility(View.INVISIBLE);
+            button_7.setVisibility(View.INVISIBLE);
+            button_8.setVisibility(View.INVISIBLE);
+            button_9.setVisibility(View.INVISIBLE);
+            button_backspace.setVisibility(View.INVISIBLE);
+            questionTextView.setVisibility(View.INVISIBLE);
+            userInput.setVisibility(View.INVISIBLE);
+
+            prompt_background.setVisibility(View.VISIBLE);
+            prompt_image.setVisibility(View.VISIBLE);
+            prompt_header.setVisibility(View.VISIBLE);
+            prompt_text.setVisibility(View.VISIBLE);
+
+            questionTextView.setText("");
+            userInput.setText("");
+            prompt_header.setText(header);
+            prompt_text.setText(text);
+        }
+    }
+
+
+
+    //// BACKUP //////////////////////////////////////
+    /*
+    // Method to conclude a round
+    public void finishRound(TextView question, TextView userInput, TextView prompt_text, int[] givenAnswers, String[] questions, int[] answers, int[] round){
+        String msg = "Answers were: ";
+        for (int i : givenAnswers){
+            msg += i + ", ";
+        }
+        Log.d("TAG", msg);
+
+        // Logic to check whether the given answer is correct or not
+        int score = 0;
+        String[] result = new String[givenAnswers.length];
+        for (int i = 0; i < roundsToPlay; i++){
+            int a = givenAnswers[i];
+            int b = answers[round[i]];
+
+            if (a == b){
+                result[i] = a + " VAR RIKTIG!!!";
+                score++;
+            }
+            else{
+                result[i] = a + " ER FEIL!!! Riktig svar er: " + b;
+            }
+        }
+        String res_msg = "##### Resultater:\n";
+        for (String s : result){
+            res_msg += "## " + s + "\n ";
+        }
+        Log.d("TAG", res_msg);
+
+
         String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
 
         String toSave = score + "," + (givenAnswers.length - score);
         writeToFile(toSave, context);
-        question.setText(scoremessage + " / " + givenAnswers.length);
+
+        question.setText("");
+        String finished = this.getResources().getString(R.string.finished);
+        userInput.setText("");
+
+        prompt_text.setText(scoremessage + " / " + givenAnswers.length + "\n" + finished);
+
     }
+
+    */
+    /////////////////////////////////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -136,6 +271,7 @@ public class Game extends AppCompatActivity {
         theRound = select_random(roundsToPlay, answers, questions_asked);
         givenAnswers = new int[theRound.length];
 
+
         // DEBUG
         /*
         String out = "Runden ble: ";
@@ -148,36 +284,29 @@ public class Game extends AppCompatActivity {
         // DEBUG
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        setContentView(R.layout.activity_game);;
 
-        TextView questionTextView = (TextView)findViewById(R.id.question);
-        TextView userInput = (TextView)findViewById(R.id.userInput);
+        questionTextView = (TextView)findViewById(R.id.question);
+        userInput = (TextView)findViewById(R.id.userInput);
+        button_backspace = (Button)findViewById(R.id.button_backspace);
+        button_enter = (Button)findViewById(R.id.button_enter);
+        button_0 = (Button)findViewById(R.id.button_0);
+        button_1 = (Button)findViewById(R.id.button_1);
+        button_2 = (Button)findViewById(R.id.button_2);
+        button_3 = (Button)findViewById(R.id.button_3);
+        button_4 = (Button)findViewById(R.id.button_4);
+        button_5 = (Button)findViewById(R.id.button_5);
+        button_6 = (Button)findViewById(R.id.button_6);
+        button_7 = (Button)findViewById(R.id.button_7);
+        button_8 = (Button)findViewById(R.id.button_8);
+        button_9 = (Button)findViewById(R.id.button_9);
 
-        Button button_backspace = (Button)findViewById(R.id.button_backspace);
-        Button button_enter = (Button)findViewById(R.id.button_enter);
-        Button button_0 = (Button)findViewById(R.id.button_0);
-        Button button_1 = (Button)findViewById(R.id.button_1);
-        Button button_2 = (Button)findViewById(R.id.button_2);
-        Button button_3 = (Button)findViewById(R.id.button_3);
-        Button button_4 = (Button)findViewById(R.id.button_4);
-        Button button_5 = (Button)findViewById(R.id.button_5);
-        Button button_6 = (Button)findViewById(R.id.button_6);
-        Button button_7 = (Button)findViewById(R.id.button_7);
-        Button button_8 = (Button)findViewById(R.id.button_8);
-        Button button_9 = (Button)findViewById(R.id.button_9);
+        prompt_background = (TextView)findViewById(R.id.prompt_background);
+        prompt_image = (ImageView)findViewById(R.id.prompt_image);
+        prompt_header = (TextView)findViewById(R.id.prompt_header);
+        prompt_text = (TextView)findViewById(R.id.prompt_text);
 
-        // questionTextView.setText(R.string.welcome);
-        // userInput.setText(R.string.pressEnterToPlay);
-
-        TextView prompt_background = (TextView)findViewById(R.id.prompt_background);
-        ImageView prompt_image = (ImageView)findViewById(R.id.prompt_image);
-        TextView prompt_header = (TextView)findViewById(R.id.prompt_header);
-        TextView prompt_text = (TextView)findViewById(R.id.prompt_text);
-
-
-        // This is super inefficient. It should not be in onUpdate, I don't think. At least not the refreshing.
-        // Certainly there must be a smarter way of doing this..
-
+        // Setting up onClicks for all buttons
         button_0.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if (isPlaying && numberBuffer.length() < 8) {
@@ -258,7 +387,6 @@ public class Game extends AppCompatActivity {
                 }
             }
         });
-
         button_backspace.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 if (numberBuffer.length() > 0) {
@@ -268,61 +396,14 @@ public class Game extends AppCompatActivity {
             }
         });
 
+        // Startup formatting.
+        prompt_header.setText(getResources().getString(R.string.welcome));
+        prompt_text.setText(getResources().getString(R.string.intro_text));
+
+
         // This is where the magic happens babyyy
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-
-
-                // TODO: MOVE THIS SOMEWHERE ELSE FFS
-                if(isPlaying){
-                    prompt_background.setVisibility(View.INVISIBLE);
-                    prompt_image.setVisibility(View.INVISIBLE);
-                    prompt_header.setVisibility(View.INVISIBLE);
-                    prompt_text.setVisibility(View.INVISIBLE);
-
-                    button_0.setVisibility(View.VISIBLE);
-                    button_1.setVisibility(View.VISIBLE);
-                    button_2.setVisibility(View.VISIBLE);
-                    button_3.setVisibility(View.VISIBLE);
-                    button_4.setVisibility(View.VISIBLE);
-                    button_5.setVisibility(View.VISIBLE);
-                    button_6.setVisibility(View.VISIBLE);
-                    button_7.setVisibility(View.VISIBLE);
-                    button_8.setVisibility(View.VISIBLE);
-                    button_9.setVisibility(View.VISIBLE);
-                    button_backspace.setVisibility(View.VISIBLE);
-
-                    questionTextView.setVisibility(View.VISIBLE);
-                    userInput.setVisibility(View.VISIBLE);
-                }
-                if (!isPlaying){
-                    button_0.setVisibility(View.INVISIBLE);
-                    button_1.setVisibility(View.INVISIBLE);
-                    button_2.setVisibility(View.INVISIBLE);
-                    button_3.setVisibility(View.INVISIBLE);
-                    button_4.setVisibility(View.INVISIBLE);
-                    button_5.setVisibility(View.INVISIBLE);
-                    button_6.setVisibility(View.INVISIBLE);
-                    button_7.setVisibility(View.INVISIBLE);
-                    button_8.setVisibility(View.INVISIBLE);
-                    button_9.setVisibility(View.INVISIBLE);
-                    button_backspace.setVisibility(View.INVISIBLE);
-
-                    questionTextView.setVisibility(View.INVISIBLE);
-                    userInput.setVisibility(View.INVISIBLE);
-
-                    prompt_background.setVisibility(View.VISIBLE);
-                    prompt_image.setVisibility(View.VISIBLE);
-                    prompt_header.setVisibility(View.VISIBLE);
-                    prompt_text.setVisibility(View.VISIBLE);
-
-                }
-
-
-
-
-
-
                 if (isPlaying && numberBuffer.length() > 0){
                     int answer = Integer.parseInt(numberBuffer.toString());
                     numberBuffer.setLength(0);
@@ -332,28 +413,35 @@ public class Game extends AppCompatActivity {
                     // Check if we're done
                     if (currentRound >= roundsToPlay){
                         isPlaying = false;
-                        finishRound(questionTextView, userInput, givenAnswers, questions, answers, theRound);
+                        finishRound(v, answers, theRound);
                     }
                     else { // If we're not done, we continue
                         questionTextView.setText(questions[theRound[currentRound]]);
                     }
                 }
-                else if(currentRound == 0){ // Startup
+                else if(!isPlaying && currentRound == 0){ // Startup
                     isPlaying = true;
+                    setPrompt(v, "CLEAR", "");
                     questionTextView.setText(questions[theRound[currentRound]]);
                     userInput.setText("");
                 }
                 else if(currentRound == roundsToPlay){ // If ENTER is pressed after finishing a round, meaning user wishes to play new questions.
+                    setPrompt(v, "CLEAR", "");
                     theRound = select_random(roundsToPlay, answers, questions_asked);
                     if (theRound.length <= 0){ // If we've run out of questions
-                        questionTextView.setText(R.string.outOfQuestions);
-                        userInput.setText("");
+                        String temp_prompt_header = "Bra jobba!";
+                        setPrompt(v, temp_prompt_header, getResources().getString(R.string.outOfQuestions));
                     }
                     else if (theRound.length < roundsToPlay){ // If we have questions left, but not enough.
-                        String notEnoughQuestions_1 = getResources().getString(R.string.notEnoughQuestions_1);
-                        String notEnoughQuestions_2 = getResources().getString(R.string.notEnoughQuestions_2);
-                        questionTextView.setText(notEnoughQuestions_1 + theRound.length + notEnoughQuestions_2);
-                        userInput.setText(R.string.enterToContinue);
+
+                        String temp_prompt_header = "Bra jobba!";
+
+                        String temp_prompt_text = getResources().getString(R.string.notEnoughQuestions_1)
+                                + theRound.length + getResources().getString(R.string.notEnoughQuestions_2)
+                                + getResources().getString(R.string.enterToContinue);
+
+                        setPrompt(v, temp_prompt_header, temp_prompt_text);
+
                         givenAnswers = new int[theRound.length];
                         roundsToPlay = theRound.length;
                         isPlaying = false;

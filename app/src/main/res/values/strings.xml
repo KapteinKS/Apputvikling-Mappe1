@@ -37,6 +37,7 @@
     <string name="enterToContinue">"Trykk ⏎ for å fortsette"</string>
     <string name="notEnoughQuestions_1">Du har bare </string>
     <string name="notEnoughQuestions_2"> spørsmål igjen!</string>
+    <string name="intro_text">Velkommen til Mattekatt!\n Her kan du øve deg på addering!\nTrykk på den grønne knappen for å starte!</string>
 
     <string name="title">MatteKatt</string>
     <string name="subtitle">Lær addisjon!</string>
