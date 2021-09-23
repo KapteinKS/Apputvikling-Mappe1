@@ -132,7 +132,7 @@ public class Game extends AppCompatActivity {
 
         //String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
 
-        String toSave = "Riktige: " + score + " Feil: " + (givenAnswers.length - score);
+        String toSave =  score + "," + (givenAnswers.length - score);
         writeToFile(toSave, context);
 
         setPrompt(v, temp_prompt_header, temp_prompt_text);
