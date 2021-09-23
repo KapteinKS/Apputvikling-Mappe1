@@ -23,6 +23,7 @@ public class SetPreferencesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_preferences);
+        setTheme(R.style.PreferenceScreen);
 
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.settings_container,

@@ -16,4 +16,5 @@
     <color name="yellow">#FFE800</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="warning">#c21104</color>
 </resources>

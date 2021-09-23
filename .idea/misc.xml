@@ -12,6 +12,7 @@
         <entry key="..\:/GitHub/Apputvikling Mappe1/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/GitHub/Apputvikling Mappe1/app/src/main/res/layout/activity_main_horizontal.xml" value="0.36666666666666664" />
         <entry key="..\:/GitHub/Apputvikling Mappe1/app/src/main/res/layout/preferences.xml" value="0.36666666666666664" />
+        <entry key="..\:/GitHub/Apputvikling Mappe1/app/src/main/res/layout/set_preferences.xml" value="0.36666666666666664" />
         <entry key="..\:/GitHub/Apputvikling Mappe1/app/src/main/res/layout/statistics.xml" value="0.33" />
         <entry key="..\:/GitHub/Apputvikling Mappe1/app/src/main/res/menu/stat_toolbar.xml" value="0.36666666666666664" />
         <entry key="..\:/GitHub/Apputvikling Mappe1/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3828125" />
@@ -20,7 +21,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.3875" />
         <entry key="app/src/main/res/font/rum_raisin.xml" value="0.635" />
         <entry key="app/src/main/res/layout-land/activity_game.xml" value="0.20973782771535582" />
-        <entry key="app/src/main/res/layout/activity_game.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_game.xml" value="0.5370018975332068" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.5" />
         <entry key="app/src/main/res/layout/set_preferences.xml" value="0.314484126984127" />
         <entry key="app/src/main/res/layout/statistics.xml" value="0.23125" />

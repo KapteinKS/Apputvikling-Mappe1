@@ -3,34 +3,101 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/blue">
 
-    <Toolbar
-        android:id="@+id/stat_toolbar"
+    <TextView
+        android:id="@+id/textView4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@color/white"
+        android:layout_marginTop="32dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal"
+        android:text="@string/statistics_headline"
+        android:textSize="34sp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/rum_raisin"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/statistics_headline"
-            android:textSize="32sp"
-            android:textColor="@color/black"/>
-    </Toolbar>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="57dp"
-        android:layout_height="76dp"
-        android:layout_marginTop="24dp"
+        android:id="@+id/highScoreLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/stat_toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/stat_toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+        <TableRow
+            android:id="@+id/row2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/correct"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:gravity="center_horizontal"
+                android:text="@string/correct"
+                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/rum_raisin"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/wrong"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:gravity="center_horizontal"
+                android:text="@string/wrong"
+                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/rum_raisin"
+                android:visibility="invisible" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/row3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/number_correct"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/rum_raisin"/>
+
+            <TextView
+                android:id="@+id/number_wrong"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:gravity="center_horizontal"
+                android:textSize="24sp"
+                android:textColor="@color/white"
+                android:fontFamily="@font/rum_raisin"/>
+        </TableRow>
+    </TableLayout>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="@string/delete_stats"
+        android:onClick="deleteStats"
+        android:backgroundTint="@color/warning"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/highScoreLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
