@@ -35,6 +35,7 @@
     <string name="welcome">Velkommen!</string>
     <string name="pressEnterToPlay">Trykk på den grønne knappen for å starte!</string>
     <string name="finished">Trykk på den grønne knappen for å spille enda en runde!</string>
+    <string name="finished_heading">Ferdig!</string>
     <string name="yourscore">Din score ble: </string>
     <string name="abortwarning">Sikker på du vil avbryte?\nVed avbrytelse lagres ikke spillet.</string>
     <string name="yes">Ja</string>

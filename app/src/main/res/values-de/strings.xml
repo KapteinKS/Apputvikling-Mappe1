@@ -24,6 +24,7 @@
     <string name="welcome">Willkommen!</string>
     <string name="pressEnterToPlay">Drücken Sie die grüne Taste um zu starten!</string>
     <string name="finished">Das Spiel ist vorbei!</string>
+    <string name="finished_heading">Fertig!</string>
     <string name="yourscore">Deine Punktzahl war: </string>
     <string name="abortwarning">Möchten Sie wirklich stornieren? \nBei einer Unterbrechung wird das Spiel nicht gespeichert.</string>
     <string name="yes">Ja</string>

@@ -26,38 +26,25 @@ import java.util.Locale;
 import java.util.Random;
 
 public class Game extends AppCompatActivity {
-
+    // Declaring needed objects
     private SharedPreferences sharedPreferences;
     private Context context;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
     private Resources res;
     private Locale locale;
     private Configuration configuration;
-
+    // Declaring attributes we need to access
     boolean isPlaying = false;
     boolean isFinished = false;
     boolean showingPrompt = true;
-    int roundsToPlay; //Length set from preferences in onCreate, default = 5
+    int roundsToPlay;
     int currentRound = 0;
-
-
-
-    String userInput_string;
-    String questionTextView_string;
-    String prompt_header_string;
-    String prompt_text_string;
-
-
-
     String[] questions;
-
     int[] theRound;
     int[] givenAnswers;
     int[] answers;
-
-    // Creating a numberbuffer
     StringBuilder numberBuffer = new StringBuilder();
-
+    // Declaring UI elements
     TextView questionTextView;
     TextView userInput;
     Button button_backspace;
@@ -72,7 +59,6 @@ public class Game extends AppCompatActivity {
     Button button_7;
     Button button_8;
     Button button_9;
-
     TextView prompt_background;
     ImageView prompt_image;
     TextView prompt_header;
@@ -82,6 +68,7 @@ public class Game extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // If there's a state to load from, we do – for instance when rotating.
         if (savedInstanceState != null){
             currentRound = savedInstanceState.getInt("currentRound");
             roundsToPlay = savedInstanceState.getInt("roundsToPlay");
@@ -90,37 +77,28 @@ public class Game extends AppCompatActivity {
             theRound = savedInstanceState.getIntArray("theRound");
             givenAnswers = savedInstanceState.getIntArray("givenAnswers");
             questions_asked = savedInstanceState.getIntegerArrayList("questions_asked");
-
             showingPrompt = savedInstanceState.getBoolean("showingPrompt");
             if (numberBuffer.length() == 0){
                 numberBuffer.append(savedInstanceState.getString("userInput"));
             }
-
-            //userInput_string = savedInstanceState.getString("userInput");
-            //questionTextView_string = savedInstanceState.getString("questionTextView");
-            //prompt_header_string = savedInstanceState.getString("prompt_header");
-            //prompt_text_string = savedInstanceState.getString("prompt_text");
         }
-        else{
 
-        }
         setContentView(R.layout.activity_game);
 
         res = getResources();
-        questions = res.getStringArray(R.array.questions);
         context = getApplicationContext();
         configuration = res.getConfiguration();
         locale = configuration.locale;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         // Fetching resources containing the questions and answers to be asked
+        questions = res.getStringArray(R.array.questions);
         answers = res.getIntArray(R.array.answers);
         String lengthString = sharedPreferences.getString("length", "5");
         roundsToPlay = Integer.parseInt(lengthString);
         questions_asked = new ArrayList<>();
         isFinished = false;
         File file = new File(context.getFilesDir(), "high-score-storage.txt");
-
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -133,9 +111,9 @@ public class Game extends AppCompatActivity {
         theRound = select_random(roundsToPlay, answers, questions_asked);
         givenAnswers = new int[theRound.length];
 
+        // Fetching info on UI-elements
         questionTextView = (TextView) findViewById(R.id.question);
         userInput = (TextView) findViewById(R.id.userInput);
-
         button_backspace = (Button) findViewById(R.id.button_backspace);
         button_enter = (Button) findViewById(R.id.button_enter);
         button_0 = (Button) findViewById(R.id.button_0);
@@ -148,7 +126,6 @@ public class Game extends AppCompatActivity {
         button_7 = (Button) findViewById(R.id.button_7);
         button_8 = (Button) findViewById(R.id.button_8);
         button_9 = (Button) findViewById(R.id.button_9);
-
 
         prompt_background = (TextView) findViewById(R.id.prompt_background);
         prompt_image = (ImageView) findViewById(R.id.prompt_image);
@@ -186,52 +163,22 @@ public class Game extends AppCompatActivity {
         for (int i = 0; i < round.length; i++) {
             round[i] = roundBuffer.get(i);
         }
-        // DEBUG
-        String out = "Runden:  ";
-        for (int i : round) {
-            out += i + ", ";
-        }
-        Log.d("TAG", out);
-        // DEBUG
         return round;
-
     }
 
     // Method to conclude a round
     public void finishRound(View v, int[] answers, int[] round) {
-        String msg = "Answers were: "; // TODO: Replace all these internal strings
-        for (int i : givenAnswers) {
-            msg += i + ", ";
-        }
-        Log.d("TAG", msg);
-
         // Logic to check whether the given answer is correct or not
         int score = 0;
-        String[] result = new String[givenAnswers.length];
         for (int i = 0; i < roundsToPlay; i++) {
             int a = givenAnswers[i];
             int b = answers[round[i]];
-
-            String result_line = questions[round[i]] + " = ";
-
             if (a == b) {
-                result_line += a + "   Er riktig!"; //TODO: replace with string
                 score++;
-            } else {
-                result_line += a + "  Er feil. Riktig svar er: " + b; //TODO: replace with string
             }
-            result[i] = result_line;
-
         }
 
-        // LOG
-        String res_msg = "##### Resultater:\n"; //TODO: replace with string
-        for (String s : result) {
-            res_msg += "## " + s + "\n ";
-        }
-        Log.d("TAG", res_msg);
-
-        // Setting the results
+        // Displaying the score
         String temp_prompt_header = "";
         if (score == roundsToPlay) {
             temp_prompt_header = getString(R.string.perfect_job);
@@ -247,44 +194,14 @@ public class Game extends AppCompatActivity {
             prompt_image.setImageResource(R.drawable.mattekatt);
         }
 
-
-        // TODO: Format this nicelier. Will it look horrible with 15 questions????
-        /*
-        String temp_prompt_text = "RESULTATER:\n"; //TODO: replace with string
-        for (String s : result){
-            temp_prompt_text += "" + s + "\n ";
-        }
-
-         */
-
-        String temp_prompt_text = this.getResources().getString(R.string.yourscore) + " " + score + " / " + givenAnswers.length + "\n" + this.getResources().getString(R.string.finished);
-
-        //String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
+        String temp_prompt_text = this.getResources().getString(R.string.yourscore) + " \n" + score + " / " + givenAnswers.length + "\n" + this.getResources().getString(R.string.finished);
+        setPrompt(temp_prompt_header, temp_prompt_text);
 
         String toSave = score + "," + (givenAnswers.length - score);
         writeToFile(toSave, context);
 
-        setPrompt(temp_prompt_header, temp_prompt_text);
-
-        /*
-
-        if(roundsToPlay <= 5){
-            prompt_text.setTextSize(20);
-        }
-        else if (roundsToPlay > 5 && roundsToPlay <= 10){
-            prompt_text.setTextSize(14);
-        }
-        else if (roundsToPlay > 10){
-            prompt_text.setTextSize(14);
-        }
-
-        */
-
         questionTextView.setText("");
-        //String finished = this.getResources().getString(R.string.finished);
         userInput.setText("");
-
-        //prompt_text.setText(scoremessage + " / " + givenAnswers.length + "\n" + finished);
 
     }
 
@@ -332,7 +249,7 @@ public class Game extends AppCompatActivity {
 
             showingPrompt = true;
 
-            prompt_text.setTextSize(20);
+            prompt_text.setTextSize(24);
             questionTextView.setText("");
             userInput.setText("");
             prompt_header.setText(header);
@@ -361,7 +278,6 @@ public class Game extends AppCompatActivity {
             alertDialog_Builder.setMessage(R.string.abortwarning);
             alertDialog_Builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    // DO STUFF
                     finish();
                 }
             });
@@ -371,7 +287,6 @@ public class Game extends AppCompatActivity {
                 }
             });
             AlertDialog alertDialog = alertDialog_Builder.create();
-
             alertDialog.show();
         }
     }
@@ -430,8 +345,7 @@ public class Game extends AppCompatActivity {
             if (theRound.length <= 0) { // If we've run out of questions
                 isFinished = true;
                 isPlaying = false;
-                String temp_prompt_header = "Bra jobba!"; //TODO: Replace with string
-                setPrompt(temp_prompt_header, getResources().getString(R.string.outOfQuestions));
+                setPrompt(getResources().getString(R.string.finished), getResources().getString(R.string.outOfQuestions));
             } else if (theRound.length < roundsToPlay) { // If we have questions left, but not enough.
 
                 String temp_prompt_header = getResources().getString(R.string.bad_job);
@@ -471,10 +385,10 @@ public class Game extends AppCompatActivity {
         configuration.setLocale(new Locale(landCode));
         res.updateConfiguration(configuration, dm);
         locale = configuration.locale;
-        //Log.e("TAG", locale.toString());
         recreate();
     }
 
+    // Method to save instance state, to make process persistent when rotating
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
@@ -482,22 +396,17 @@ public class Game extends AppCompatActivity {
         savedInstanceState.putInt("roundsToPlay",roundsToPlay);
         savedInstanceState.putBoolean("isPlaying", isPlaying);
         savedInstanceState.putBoolean("isFinished", isFinished);
-
         savedInstanceState.putIntArray("theRound", theRound);
         savedInstanceState.putIntArray("givenAnswers", givenAnswers);
-
         savedInstanceState.putIntegerArrayList("questions_asked", questions_asked);
-
         savedInstanceState.putBoolean("showingPrompt", showingPrompt);
-
         savedInstanceState.putString("userInput", userInput.getText().toString());
         savedInstanceState.putString("questionTextView", questionTextView.getText().toString());
-
         savedInstanceState.putString("prompt_header", prompt_header.getText().toString());
         savedInstanceState.putString("prompt_text", prompt_text.getText().toString());
 
     }
-
+    // Method to restore instance state, to make process persistent when rotating
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState){
         super.onRestoreInstanceState(savedInstanceState);
@@ -508,9 +417,7 @@ public class Game extends AppCompatActivity {
         theRound = savedInstanceState.getIntArray("theRound");
         givenAnswers = savedInstanceState.getIntArray("givenAnswers");
         questions_asked = savedInstanceState.getIntegerArrayList("questions_asked");
-
         showingPrompt = savedInstanceState.getBoolean("showingPrompt", showingPrompt);
-
         userInput.setText(savedInstanceState.getString("userInput"));
         questionTextView.setText(savedInstanceState.getString("questionTextView"));
         prompt_header.setText(savedInstanceState.getString("prompt_header"));
