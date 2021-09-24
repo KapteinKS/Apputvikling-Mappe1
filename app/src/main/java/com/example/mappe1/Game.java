@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -28,17 +26,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Random;
 
 public class Game extends AppCompatActivity {
 
     private Context context;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.OnSharedPreferenceChangeListener listener;
-    private Resources res;
-    private Locale locale;
-    private Configuration configuration;
+
     boolean isPlaying = false;
     int roundsToPlay; //Length set from preferences in onCreate, default = 5
     int currentRound = 0;
@@ -254,15 +247,14 @@ public class Game extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         // Fetching resources containing the questions and answers to be asked
-        res = getResources();
+        Resources res = getResources();
         questions = res.getStringArray(R.array.questions);
         int[] answers = res.getIntArray(R.array.answers);
         context = getApplicationContext();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String lengthString = sharedPreferences.getString("length", "5");
         roundsToPlay = Integer.parseInt(lengthString);
-        configuration = res.getConfiguration();
-        locale = configuration.locale;
+
         ArrayList<Integer> questions_asked = new ArrayList<>();
 
         File file = new File(context.getFilesDir(), "high-score-storage.txt");
@@ -405,26 +397,6 @@ public class Game extends AppCompatActivity {
                     numberBuffer.setLength(0);
                     userInput.setText("");
                     givenAnswers[currentRound] = answer;
-                    //////////////// This fucking shit'll be deleted //////////////
-                    // If the incorrect answer is given:
-                    if (answer != answers[theRound[currentRound]]){
-                        AlertDialog.Builder alertDialog_Builder = new AlertDialog.Builder(new
-                                ContextThemeWrapper(v.getContext(), R.style.MyAlert));
-                        alertDialog_Builder.setCancelable(false);
-                        String feilSvar = questions[theRound[currentRound]] + " = " + answer + " Er feil!\nRiktig svar er: " + answers[theRound[currentRound]]; //TODO: replace with strings
-                        alertDialog_Builder.setMessage(feilSvar);
-                        alertDialog_Builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                // DO STUFF
-                            }
-                        });
-                        AlertDialog alertDialog = alertDialog_Builder.create();
-                        alertDialog.show();
-                        TextView textView = (TextView) alertDialog.findViewById(android.R.id.message);
-                        textView.setTextSize(20);
-                        textView.setTypeface((Typeface) res.getFont(R.font.rum_raisin_regular));
-                    }
-                    /////////////////////////////////////////////////////////////////////////////
 
                     currentRound++; // Advance a round
                     // Check if we're done
@@ -477,16 +449,6 @@ public class Game extends AppCompatActivity {
             }
         });
     }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        String language = sharedPreferences.getString(getString(R.string.sp_key_language), "no");
-        if (!language.equals(locale.toString())){
-            setLanguage(language);
-        }
-    }
-
     // Method to warn the user if they try to abort the game
     @Override
     public void onBackPressed(){
@@ -524,15 +486,6 @@ public class Game extends AppCompatActivity {
             Log.e("Exception", "File write failed: " + e.toString());
             return false;
         }
-    }
-
-    public void setLanguage(String landCode){
-        DisplayMetrics dm = res.getDisplayMetrics();
-        configuration.setLocale(new Locale(landCode));
-        res.updateConfiguration(configuration, dm);
-        locale = configuration.locale;
-        //Log.e("TAG", locale.toString());
-        recreate();
     }
 
 }
