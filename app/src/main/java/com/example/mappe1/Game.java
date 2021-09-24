@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.View;
@@ -26,11 +28,17 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 public class Game extends AppCompatActivity {
 
+    private SharedPreferences sharedPreferences;
     private Context context;
+    private SharedPreferences.OnSharedPreferenceChangeListener listener;
+    private Resources res;
+    private Locale locale;
+    private Configuration configuration;
 
     boolean isPlaying = false;
     int roundsToPlay; //Length set from preferences in onCreate, default = 5
@@ -247,11 +255,13 @@ public class Game extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         // Fetching resources containing the questions and answers to be asked
-        Resources res = getResources();
+        res = getResources();
         questions = res.getStringArray(R.array.questions);
         int[] answers = res.getIntArray(R.array.answers);
         context = getApplicationContext();
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        configuration = res.getConfiguration();
+        locale = configuration.locale;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String lengthString = sharedPreferences.getString("length", "5");
         roundsToPlay = Integer.parseInt(lengthString);
 
