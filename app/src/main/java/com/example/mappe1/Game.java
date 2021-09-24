@@ -403,9 +403,8 @@ public class Game extends AppCompatActivity {
     // Helper-method to handle enter-inputs. Contains game-logic
     public void enter_clicked(View v) {
         showingPrompt = false;
-        if (isFinished) { //TODO shouldn't this be finish()? - Nei, dette e bare ein bool lagt til for å kunna exit'a med den grønne knappen når spillet e ferdig
-            Intent i = new Intent(v.getContext(), MainActivity.class);
-            startActivity(i);
+        if (isFinished) {
+            finish();
         }
         if (isPlaying && numberBuffer.length() > 0) { //While playing
             int answer = Integer.parseInt(numberBuffer.toString());
