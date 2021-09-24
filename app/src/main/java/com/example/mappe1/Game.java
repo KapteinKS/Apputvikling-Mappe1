@@ -496,6 +496,7 @@ public class Game extends AppCompatActivity {
         });
     }
 
+    //This was necessary to maintain the changed language across sessions and rotations
     @Override
     protected void onResume(){
         super.onResume();
@@ -544,6 +545,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    //This was necessary to maintain the changed language across sessions and rotations
     public void setLanguage(String landCode){
         DisplayMetrics dm = res.getDisplayMetrics();
         configuration.setLocale(new Locale(landCode));

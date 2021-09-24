@@ -33,6 +33,7 @@ public class Statistics extends AppCompatActivity {
     private Resources res;
     private Locale locale;
     private Configuration configuration;
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -48,6 +49,8 @@ public class Statistics extends AppCompatActivity {
         Context context = getApplicationContext();
         File file = new File(context.getFilesDir(), "high-score-storage.txt");
 
+        //Ensuring that the file high-score-storage.txt exists, to avoid FileNotFoundException
+        //This also happens in the game activity's JAVA file
         if (!file.exists()){
             try {
             file.createNewFile();
@@ -57,6 +60,8 @@ public class Statistics extends AppCompatActivity {
         }
         viewStatistics();
     }
+
+    //This was necessary to maintain the changed language across sessions and rotations
     @Override
     protected void onResume(){
         super.onResume();
@@ -66,14 +71,13 @@ public class Statistics extends AppCompatActivity {
         }
     }
 
+    //This method calls the readFromFile method, then uses the returned array {correct, wrong}
+    //to set text in the corresponding TextViews
     private void viewStatistics() {
         int[] scores = readFromFile(getApplicationContext());
-        //Todo find only 5 question games from the string full
 
         TextView numberCorrect = findViewById(R.id.number_correct);
         TextView numberWrong = findViewById(R.id.number_wrong);
-
-        hide();
 
         String textCorrect = "" + scores[0];
         String textWrong = "" + scores[1];
@@ -82,23 +86,8 @@ public class Statistics extends AppCompatActivity {
         numberWrong.setText(textWrong);
     }
 
-    public void hide(){
-        TextView correct = findViewById(R.id.correct);
-        TextView wrong = findViewById(R.id.wrong);
-
-        if (correct.getVisibility() == View.VISIBLE){
-            correct.setVisibility(View.INVISIBLE);
-        } else {
-            correct.setVisibility(View.VISIBLE);
-        }
-
-        if (wrong.getVisibility() == View.VISIBLE){
-            wrong.setVisibility(View.INVISIBLE);
-        } else {
-            wrong.setVisibility(View.VISIBLE);
-        }
-    }
-
+    //This method reads the file high-score-storage.txt and adds up the combined number of
+    //correct and wrong answers since the last wipe of stats
     private int[] readFromFile(Context context){
         int correct = 0;
         int wrong = 0;
@@ -111,11 +100,9 @@ public class Statistics extends AppCompatActivity {
                 String receiveString = "";
 
                 while ((receiveString = bufferedReader.readLine()) != null){
-                    Log.e("READ", receiveString);
                     String[] read = receiveString.split(",");
                     correct += Integer.parseInt(read[0]);
                     wrong += Integer.parseInt(read[1]);
-                    //addTableRow(receiveString);
                 }
 
                 is.close();
@@ -130,6 +117,7 @@ public class Statistics extends AppCompatActivity {
         return new int[]{correct, wrong};
     }
 
+    //This method will overwrite the stored high scores with blank/empty text
     public void deleteStats(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -156,6 +144,8 @@ public class Statistics extends AppCompatActivity {
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    //This was necessary to maintain the changed language across sessions and rotations
     public void setLanguage(String landCode){
         DisplayMetrics dm = res.getDisplayMetrics();
         configuration.setLocale(new Locale(landCode));

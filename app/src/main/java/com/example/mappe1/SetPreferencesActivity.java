@@ -24,20 +24,24 @@ public class SetPreferencesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        context = getApplicationContext();
-        res = getResources();
-        configuration = res.getConfiguration();
-        sharedPreferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(context);
-        locale = configuration.locale;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.set_preferences);
         setTheme(R.style.PreferenceScreen);
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.settings_container,
-                new SettingsFragment()).commit();
+        //This was necessary to prevent the phone/emulator from crashing upon rotation
+        //while the ListPreference dialog window was open
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.settings_container,
+                            new SettingsFragment()).commit();
+        }
+
         context = getApplicationContext();
+        res = getResources();
+        configuration = res.getConfiguration();
+        locale = configuration.locale;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
         listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
                 recreate();
@@ -45,6 +49,8 @@ public class SetPreferencesActivity extends AppCompatActivity {
         };
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
+
+    //This was necessary to maintain the changed language across sessions and rotations
     @Override
     protected void onResume(){
         super.onResume();
@@ -53,6 +59,8 @@ public class SetPreferencesActivity extends AppCompatActivity {
             setLanguage(language);
         }
     }
+
+    //This was necessary to maintain the changed language across sessions and rotations
     public void setLanguage(String landCode){
         DisplayMetrics dm = res.getDisplayMetrics();
         configuration.setLocale(new Locale(landCode));

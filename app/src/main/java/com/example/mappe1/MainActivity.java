@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private Locale locale;
     private Configuration configuration;
 
+    //Setting up variables and the onPreferenceChangeListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
     }
 
+    //This was necessary to maintain the changed language across sessions and rotations
+    //Checks to see if locale is still correct. Also used in the other classes
     @Override
     protected void onResume(){
         super.onResume();
@@ -55,27 +58,30 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Starts the game activity
     public void startGame(View view) {
         Intent i = new Intent(view.getContext(), Game.class);
         startActivity(i);
     }
 
+    //Starts the statistics activity
     public void statistics(View view) {
         Intent i = new Intent(view.getContext(), Statistics.class);
         startActivity(i);
     }
 
+    //Starts the preference/settings activity
     public void setSharedPreferences(View view) {
         Intent i = new Intent(view.getContext(), SetPreferencesActivity.class);
         startActivity(i);
     }
 
+    //Changes the language/locale of the app
     public void setLanguage(String landCode){
         DisplayMetrics dm = res.getDisplayMetrics();
         configuration.setLocale(new Locale(landCode));
         res.updateConfiguration(configuration, dm);
         locale = configuration.locale;
-        //Log.e("TAG", locale.toString());
         recreate();
     }
 }
