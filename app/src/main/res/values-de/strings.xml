@@ -36,7 +36,7 @@
     <string name="notEnoughQuestions_2"> fragen!</string>
     <string name="intro_text">Willkommen bei MathCat!\n Hier können Sie das Hinzufügen üben!\nDrücken Sie die grüne Taste, um zu starten!</string>
 
-    <string name="title">MathCat</string>
+    <string name="title">MatteKatze</string>
     <string name="subtitle">Mehr erfahren!</string>
     <string name="bad_job">Runde fertig!</string>
     <string name="good_job">Gut gespielt!</string>
