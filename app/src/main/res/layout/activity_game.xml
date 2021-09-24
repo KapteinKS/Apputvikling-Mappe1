@@ -40,6 +40,7 @@
 
     <Button
         android:id="@+id/button_7"
+        android:onClick="number_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="40dp"
@@ -59,6 +60,7 @@
 
     <Button
         android:id="@+id/button_backspace"
+        android:onClick="backspace_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="40dp"
@@ -78,6 +80,7 @@
 
     <Button
         android:id="@+id/button_enter"
+        android:onClick="enter_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="216dp"
@@ -98,6 +101,7 @@
 
     <Button
         android:id="@+id/button_6"
+        android:onClick="number_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="216dp"
@@ -117,6 +121,7 @@
 
     <Button
         android:id="@+id/button_4"
+        android:onClick="number_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="40dp"
@@ -136,6 +141,7 @@
 
     <Button
         android:id="@+id/button_2"
+        android:onClick="number_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="128dp"
@@ -155,6 +161,7 @@
 
     <Button
         android:id="@+id/button_0"
+        android:onClick="number_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="128dp"
@@ -174,6 +181,7 @@
 
     <Button
         android:id="@+id/button_8"
+        android:onClick="number_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="128dp"
@@ -194,6 +202,7 @@
 
     <Button
         android:id="@+id/button_1"
+        android:onClick="number_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="40dp"
@@ -213,6 +222,7 @@
 
     <Button
         android:id="@+id/button_9"
+        android:onClick="number_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="216dp"
@@ -233,6 +243,7 @@
 
     <Button
         android:id="@+id/button_3"
+        android:onClick="number_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="216dp"
@@ -252,6 +263,7 @@
 
     <Button
         android:id="@+id/button_5"
+        android:onClick="number_clicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="128dp"

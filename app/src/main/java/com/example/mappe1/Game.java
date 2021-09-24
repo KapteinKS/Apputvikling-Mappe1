@@ -45,10 +45,11 @@ public class Game extends AppCompatActivity {
     int roundsToPlay; //Length set from preferences in onCreate, default = 5
     int currentRound = 0;
 
-    String [] questions;
+    String[] questions;
 
     int[] theRound;
     int[] givenAnswers;
+    int[] answers;
 
     // Creating a numberbuffer
     StringBuilder numberBuffer = new StringBuilder();
@@ -74,32 +75,95 @@ public class Game extends AppCompatActivity {
     ImageView prompt_image;
     TextView prompt_header;
     TextView prompt_text;
+    ArrayList<Integer> questions_asked;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+
+        res = getResources();
+        questions = res.getStringArray(R.array.questions);
+        context = getApplicationContext();
+        configuration = res.getConfiguration();
+        locale = configuration.locale;
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // Fetching resources containing the questions and answers to be asked
+        answers = res.getIntArray(R.array.answers);
+        String lengthString = sharedPreferences.getString("length", "5");
+        roundsToPlay = Integer.parseInt(lengthString);
+
+        questions_asked = new ArrayList<>();
+        isFinished = false;
+        File file = new File(context.getFilesDir(), "high-score-storage.txt");
+
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                Log.e("TAG", "Could not create file");
+            }
+        }
+
+        // Selecting which questions are to be asked
+        theRound = select_random(roundsToPlay, answers, questions_asked);
+        givenAnswers = new int[theRound.length];
+
+        questionTextView = (TextView) findViewById(R.id.question);
+        userInput = (TextView) findViewById(R.id.userInput);
+
+        button_backspace = (Button) findViewById(R.id.button_backspace);
+        button_enter = (Button) findViewById(R.id.button_enter);
+        button_0 = (Button) findViewById(R.id.button_0);
+        button_1 = (Button) findViewById(R.id.button_1);
+        button_2 = (Button) findViewById(R.id.button_2);
+        button_3 = (Button) findViewById(R.id.button_3);
+        button_4 = (Button) findViewById(R.id.button_4);
+        button_5 = (Button) findViewById(R.id.button_5);
+        button_6 = (Button) findViewById(R.id.button_6);
+        button_7 = (Button) findViewById(R.id.button_7);
+        button_8 = (Button) findViewById(R.id.button_8);
+        button_9 = (Button) findViewById(R.id.button_9);
+
+
+        prompt_background = (TextView) findViewById(R.id.prompt_background);
+        prompt_image = (ImageView) findViewById(R.id.prompt_image);
+        prompt_header = (TextView) findViewById(R.id.prompt_header);
+        prompt_text = (TextView) findViewById(R.id.prompt_text);
+
+        // Startup formatting.
+        prompt_header.setText(getResources().getString(R.string.welcome));
+        prompt_text.setText(getResources().getString(R.string.intro_text));
+
+    }
+    
     // Function to generate a round. Selects only unplayed questions.
-    static int[] select_random(int roundsToPlay, int[] answers, ArrayList<Integer> questions_asked){
+
+    static int[] select_random(int roundsToPlay, int[] answers, ArrayList<Integer> questions_asked) {
         int min = 0;
         int max = answers.length;
 
         ArrayList<Integer> roundBuffer = new ArrayList<>();
 
-        while (questions_asked.size() < answers.length){
+        while (questions_asked.size() < answers.length) {
             Random rand = new Random();
             int randomNumber = rand.nextInt((max - min) + 0) + min;
-            if (!(questions_asked.contains(randomNumber))){
+            if (!(questions_asked.contains(randomNumber))) {
                 questions_asked.add(randomNumber);
                 roundBuffer.add(randomNumber);
-                if (roundBuffer.size() == roundsToPlay){
+                if (roundBuffer.size() == roundsToPlay) {
                     break;
                 }
             }
         }
         int[] round = new int[roundBuffer.size()];
-        for (int i = 0; i < round.length; i++){
+        for (int i = 0; i < round.length; i++) {
             round[i] = roundBuffer.get(i);
         }
         // DEBUG
         String out = "Runden:  ";
-        for (int i : round){
+        for (int i : round) {
             out += i + ", ";
         }
         Log.d("TAG", out);
@@ -107,11 +171,11 @@ public class Game extends AppCompatActivity {
         return round;
 
     }
-
     // Method to conclude a round
-    public void finishRound(View v, int[] answers, int[] round){
+
+    public void finishRound(View v, int[] answers, int[] round) {
         String msg = "Answers were: "; // TODO: Replace all these internal strings
-        for (int i : givenAnswers){
+        for (int i : givenAnswers) {
             msg += i + ", ";
         }
         Log.d("TAG", msg);
@@ -119,17 +183,16 @@ public class Game extends AppCompatActivity {
         // Logic to check whether the given answer is correct or not
         int score = 0;
         String[] result = new String[givenAnswers.length];
-        for (int i = 0; i < roundsToPlay; i++){
+        for (int i = 0; i < roundsToPlay; i++) {
             int a = givenAnswers[i];
             int b = answers[round[i]];
 
             String result_line = questions[round[i]] + " = ";
 
-            if (a == b){
+            if (a == b) {
                 result_line += a + "   Er riktig!"; //TODO: replace with string
                 score++;
-            }
-            else{
+            } else {
                 result_line += a + "  Er feil. Riktig svar er: " + b; //TODO: replace with string
             }
             result[i] = result_line;
@@ -138,26 +201,23 @@ public class Game extends AppCompatActivity {
 
         // LOG
         String res_msg = "##### Resultater:\n"; //TODO: replace with string
-        for (String s : result){
+        for (String s : result) {
             res_msg += "## " + s + "\n ";
         }
         Log.d("TAG", res_msg);
 
         // Setting the results
         String temp_prompt_header = "";
-        if (score == roundsToPlay){
+        if (score == roundsToPlay) {
             temp_prompt_header = getString(R.string.perfect_job);
             prompt_image.setImageResource(R.drawable.mattekatt_excited2);
-        }
-        else if (score > (int)roundsToPlay/2 && score < roundsToPlay){
+        } else if (score > (int) roundsToPlay / 2 && score < roundsToPlay) {
             temp_prompt_header = getString(R.string.great_job);
             prompt_image.setImageResource(R.drawable.mattekatt_excited1);
-        }
-        else if (score > (int)roundsToPlay/4 && score <= (int)roundsToPlay/2){
+        } else if (score > (int) roundsToPlay / 4 && score <= (int) roundsToPlay / 2) {
             temp_prompt_header = getString(R.string.good_job);
             prompt_image.setImageResource(R.drawable.mattekatt_excited1);
-        }
-        else{
+        } else {
             temp_prompt_header = getString(R.string.bad_job);
             prompt_image.setImageResource(R.drawable.mattekatt);
         }
@@ -176,7 +236,7 @@ public class Game extends AppCompatActivity {
 
         //String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
 
-        String toSave =  score + "," + (givenAnswers.length - score);
+        String toSave = score + "," + (givenAnswers.length - score);
         writeToFile(toSave, context);
 
         setPrompt(v, temp_prompt_header, temp_prompt_text);
@@ -202,10 +262,10 @@ public class Game extends AppCompatActivity {
         //prompt_text.setText(scoremessage + " / " + givenAnswers.length + "\n" + finished);
 
     }
-
     // Simple method to hide & show a prompt
-    public void setPrompt(View v, String header, String text){
-        if (header == "CLEAR"){
+
+    public void setPrompt(View v, String header, String text) {
+        if (header == "CLEAR") {
             prompt_background.setVisibility(View.INVISIBLE);
             prompt_image.setVisibility(View.INVISIBLE);
             prompt_header.setVisibility(View.INVISIBLE);
@@ -224,8 +284,7 @@ public class Game extends AppCompatActivity {
             button_backspace.setVisibility(View.VISIBLE);
             questionTextView.setVisibility(View.VISIBLE);
             userInput.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             button_0.setVisibility(View.INVISIBLE);
             button_1.setVisibility(View.INVISIBLE);
             button_2.setVisibility(View.INVISIBLE);
@@ -253,237 +312,22 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
-
-        res = getResources();
-        questions = res.getStringArray(R.array.questions);
-        context = getApplicationContext();
-        configuration = res.getConfiguration();
-        locale = configuration.locale;
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-
-        // Fetching resources containing the questions and answers to be asked
-        int[] answers = res.getIntArray(R.array.answers);
-        String lengthString = sharedPreferences.getString("length", "5");
-        roundsToPlay = Integer.parseInt(lengthString);
-
-        ArrayList<Integer> questions_asked = new ArrayList<>();
-        isFinished = false;
-        File file = new File(context.getFilesDir(), "high-score-storage.txt");
-
-        if (!file.exists()){
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                Log.e("TAG", "Could not create file");
-            }
-        }
-
-        // Selecting which questions are to be asked
-        theRound = select_random(roundsToPlay, answers, questions_asked);
-        givenAnswers = new int[theRound.length];
-
-        questionTextView = (TextView)findViewById(R.id.question);
-        userInput = (TextView)findViewById(R.id.userInput);
-        button_backspace = (Button)findViewById(R.id.button_backspace);
-        button_enter = (Button)findViewById(R.id.button_enter);
-        button_0 = (Button)findViewById(R.id.button_0);
-        button_1 = (Button)findViewById(R.id.button_1);
-        button_2 = (Button)findViewById(R.id.button_2);
-        button_3 = (Button)findViewById(R.id.button_3);
-        button_4 = (Button)findViewById(R.id.button_4);
-        button_5 = (Button)findViewById(R.id.button_5);
-        button_6 = (Button)findViewById(R.id.button_6);
-        button_7 = (Button)findViewById(R.id.button_7);
-        button_8 = (Button)findViewById(R.id.button_8);
-        button_9 = (Button)findViewById(R.id.button_9);
-
-        prompt_background = (TextView)findViewById(R.id.prompt_background);
-        prompt_image = (ImageView)findViewById(R.id.prompt_image);
-        prompt_header = (TextView)findViewById(R.id.prompt_header);
-        prompt_text = (TextView)findViewById(R.id.prompt_text);
-
-        // Setting up onClicks for all buttons
-        button_0.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("0");
-                    userInput.setText(numberBuffer.toString()); // This should probably be in a onUpdate()
-                }
-            }
-        });
-        button_1.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("1");
-                    userInput.setText(numberBuffer.toString());
-                }
-            }
-        });
-        button_2.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("2");
-                    userInput.setText(numberBuffer.toString());
-                }
-            }
-        });
-        button_3.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("3");
-                    userInput.setText(numberBuffer.toString());
-                }
-            }
-        });
-        button_4.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("4");
-                    userInput.setText(numberBuffer.toString());
-                }
-            }
-        });
-        button_5.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("5");
-                    userInput.setText(numberBuffer.toString());
-                }
-            }
-        });
-        button_6.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("6");
-                    userInput.setText(numberBuffer.toString());
-                }
-            }
-        });
-        button_7.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("7");
-                    userInput.setText(numberBuffer.toString());
-                }
-            }
-        });
-        button_8.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("8");
-                    userInput.setText(numberBuffer.toString());
-                }
-            }
-        });
-        button_9.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isPlaying && numberBuffer.length() < 8) {
-                    numberBuffer.append("9");
-                    userInput.setText(numberBuffer.toString());
-                }
-            }
-        });
-        button_backspace.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (numberBuffer.length() > 0) {
-                    numberBuffer.setLength(numberBuffer.length() - 1);
-                    userInput.setText(numberBuffer.toString());
-                }
-            }
-        });
-
-        // Startup formatting.
-        prompt_header.setText(getResources().getString(R.string.welcome));
-        prompt_text.setText(getResources().getString(R.string.intro_text));
-
-
-        //TODO I needed a quicker way to find this block
-        // This is where the magic happens babyyy
-        button_enter.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                if (isFinished){ //TODO shouldn't this be finish()?
-                    Intent i = new Intent(v.getContext(), MainActivity.class);
-                    startActivity(i);
-                }
-                if (isPlaying && numberBuffer.length() > 0){ //While playing
-                    int answer = Integer.parseInt(numberBuffer.toString());
-                    numberBuffer.setLength(0);
-                    userInput.setText("");
-                    givenAnswers[currentRound] = answer;
-                    currentRound++; // Advance a round
-                    // Check if we're done
-                    if (currentRound >= roundsToPlay){
-                        isPlaying = false;
-                        finishRound(v, answers, theRound);
-                    }
-                    else { // If we're not done, we continue
-                        questionTextView.setText(questions[theRound[currentRound]]);
-                    }
-                }
-                else if(!isPlaying && currentRound == 0){ // Startup
-                    isPlaying = true;
-                    setPrompt(v, "CLEAR", "");
-                    questionTextView.setText(questions[theRound[currentRound]]);
-                    userInput.setText("");
-                }
-                else if(currentRound == roundsToPlay){ // If ENTER is pressed after finishing a round, meaning user wishes to play new questions.
-                    setPrompt(v, "CLEAR", "");
-                    theRound = select_random(roundsToPlay, answers, questions_asked);
-                    if (theRound.length <= 0){ // If we've run out of questions
-                        isFinished = true;
-                        isPlaying = false;
-                        String temp_prompt_header = "Bra jobba!"; //TODO: Replace with string
-                        setPrompt(v, temp_prompt_header, getResources().getString(R.string.outOfQuestions));
-                    }
-                    else if (theRound.length < roundsToPlay){ // If we have questions left, but not enough.
-
-                        String temp_prompt_header = getResources().getString(R.string.bad_job);
-
-                        String temp_prompt_text = getResources().getString(R.string.notEnoughQuestions_1) + " "
-                                + theRound.length + " " + getResources().getString(R.string.notEnoughQuestions_2)
-                                + "\n\n" + getResources().getString(R.string.enterToContinue);
-
-                        setPrompt(v, temp_prompt_header, temp_prompt_text);
-
-                        givenAnswers = new int[theRound.length];
-                        roundsToPlay = theRound.length;
-                        isPlaying = false;
-                        currentRound = 0;
-                        //userInput.setText("");
-                    }
-                    else { // If we've enough questions left
-                        givenAnswers = new int[theRound.length];
-                        currentRound = 0;
-                        questionTextView.setText(questions[theRound[currentRound]]);
-                        userInput.setText("");
-                        isPlaying = true;
-                    }
-                }
-            }
-        });
-    }
-
     //This was necessary to maintain the changed language across sessions and rotations
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         String language = sharedPreferences.getString(getString(R.string.sp_key_language), "no");
-        if (!language.equals(locale.toString())){
+        if (!language.equals(locale.toString())) {
             setLanguage(language);
         }
     }
 
     // Method to warn the user if they try to abort the game
     @Override
-    public void onBackPressed(){
-        if(!isPlaying) { //If the user hasn't started a round, we don't need to warn them
+    public void onBackPressed() {
+        if (!isPlaying) { //If the user hasn't started a round, we don't need to warn them
             finish();
-        }
-        else{
+        } else {
             AlertDialog.Builder alertDialog_Builder = new AlertDialog.Builder(this);
             alertDialog_Builder.setCancelable(false);
             alertDialog_Builder.setMessage(R.string.abortwarning);
@@ -503,26 +347,101 @@ public class Game extends AppCompatActivity {
             alertDialog.show();
         }
     }
-    public boolean writeToFile(String data, Context context){
+
+    public boolean writeToFile(String data, Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("high-score-storage.txt", Context.MODE_APPEND));
             outputStreamWriter.append(data);
             outputStreamWriter.append("\n");
             outputStreamWriter.close();
             return true;
-        }catch (IOException e){
+        } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
             return false;
         }
     }
 
     //This was necessary to maintain the changed language across sessions and rotations
-    public void setLanguage(String landCode){
+    public void setLanguage(String landCode) {
         DisplayMetrics dm = res.getDisplayMetrics();
         configuration.setLocale(new Locale(landCode));
         res.updateConfiguration(configuration, dm);
         locale = configuration.locale;
         //Log.e("TAG", locale.toString());
         recreate();
+    }
+
+    public void number_clicked(View view) {
+        Button b = (Button) view;
+        String number = (String) b.getText();
+        if (isPlaying && numberBuffer.length() < 8) {
+            numberBuffer.append(number);
+            userInput.setText(numberBuffer.toString()); // This should probably be in a onUpdate()
+        }
+    }
+
+    public void enter_clicked(View v) {
+        if (isFinished) { //TODO shouldn't this be finish()?
+            Intent i = new Intent(v.getContext(), MainActivity.class);
+            startActivity(i);
+        }
+        if (isPlaying && numberBuffer.length() > 0) { //While playing
+            int answer = Integer.parseInt(numberBuffer.toString());
+            numberBuffer.setLength(0);
+            userInput.setText("");
+            givenAnswers[currentRound] = answer;
+            currentRound++; // Advance a round
+            // Check if we're done
+            if (currentRound >= roundsToPlay) {
+                isPlaying = false;
+                finishRound(v, answers, theRound);
+            } else { // If we're not done, we continue
+                questionTextView.setText(questions[theRound[currentRound]]);
+            }
+        } else if (!isPlaying && currentRound == 0) { // Startup
+            isPlaying = true;
+            setPrompt(v, "CLEAR", "");
+            questionTextView.setText(questions[theRound[currentRound]]);
+            userInput.setText("");
+        } else if (currentRound == roundsToPlay) { // If ENTER is pressed after finishing a round, meaning user wishes to play new questions.
+            setPrompt(v, "CLEAR", "");
+            theRound = select_random(roundsToPlay, answers, questions_asked);
+            if (theRound.length <= 0) { // If we've run out of questions
+                isFinished = true;
+                isPlaying = false;
+                String temp_prompt_header = "Bra jobba!"; //TODO: Replace with string
+                setPrompt(v, temp_prompt_header, getResources().getString(R.string.outOfQuestions));
+            } else if (theRound.length < roundsToPlay) { // If we have questions left, but not enough.
+
+                String temp_prompt_header = getResources().getString(R.string.bad_job);
+
+                String temp_prompt_text = getResources().getString(R.string.notEnoughQuestions_1) + " "
+                        + theRound.length + " " + getResources().getString(R.string.notEnoughQuestions_2)
+                        + "\n\n" + getResources().getString(R.string.enterToContinue);
+
+                setPrompt(v, temp_prompt_header, temp_prompt_text);
+
+                givenAnswers = new int[theRound.length];
+                roundsToPlay = theRound.length;
+                isPlaying = false;
+                currentRound = 0;
+                //userInput.setText("");
+            } else { // If we've enough questions left
+                givenAnswers = new int[theRound.length];
+                currentRound = 0;
+                questionTextView.setText(questions[theRound[currentRound]]);
+                userInput.setText("");
+                isPlaying = true;
+            }
+
+
+        }
+    }
+
+    public void backspace_clicked (View view){
+        if (numberBuffer.length() > 0) {
+            numberBuffer.setLength(numberBuffer.length() - 1);
+            userInput.setText(numberBuffer.toString());
+        }
     }
 }
