@@ -36,8 +36,18 @@ public class Game extends AppCompatActivity {
 
     boolean isPlaying = false;
     boolean isFinished = false;
+    boolean showingPrompt = true;
     int roundsToPlay; //Length set from preferences in onCreate, default = 5
     int currentRound = 0;
+
+
+
+    String userInput_string;
+    String questionTextView_string;
+    String prompt_header_string;
+    String prompt_text_string;
+
+
 
     String[] questions;
 
@@ -62,6 +72,7 @@ public class Game extends AppCompatActivity {
     Button button_7;
     Button button_8;
     Button button_9;
+
     TextView prompt_background;
     ImageView prompt_image;
     TextView prompt_header;
@@ -79,6 +90,16 @@ public class Game extends AppCompatActivity {
             theRound = savedInstanceState.getIntArray("theRound");
             givenAnswers = savedInstanceState.getIntArray("givenAnswers");
             questions_asked = savedInstanceState.getIntegerArrayList("questions_asked");
+
+            showingPrompt = savedInstanceState.getBoolean("showingPrompt");
+            if (numberBuffer.length() == 0){
+                numberBuffer.append(savedInstanceState.getString("userInput"));
+            }
+
+            //userInput_string = savedInstanceState.getString("userInput");
+            //questionTextView_string = savedInstanceState.getString("questionTextView");
+            //prompt_header_string = savedInstanceState.getString("prompt_header");
+            //prompt_text_string = savedInstanceState.getString("prompt_text");
         }
         else{
 
@@ -128,19 +149,17 @@ public class Game extends AppCompatActivity {
         button_8 = (Button) findViewById(R.id.button_8);
         button_9 = (Button) findViewById(R.id.button_9);
 
-
         prompt_background = (TextView) findViewById(R.id.prompt_background);
         prompt_image = (ImageView) findViewById(R.id.prompt_image);
         prompt_header = (TextView) findViewById(R.id.prompt_header);
         prompt_text = (TextView) findViewById(R.id.prompt_text);
 
         // Startup formatting.
-        if(roundsToPlay == 0) {
-            prompt_header.setText(getResources().getString(R.string.welcome));
-            prompt_text.setText(getResources().getString(R.string.intro_text));
+        if(showingPrompt) {
+            setPrompt(prompt_header.getText().toString(), prompt_text.getText().toString());
         }
         else{
-            //setPrompt(context,"CLEAR","");
+            setPrompt("CLEAR", "");
         }
     }
 
@@ -244,7 +263,7 @@ public class Game extends AppCompatActivity {
         String toSave = score + "," + (givenAnswers.length - score);
         writeToFile(toSave, context);
 
-        setPrompt(v, temp_prompt_header, temp_prompt_text);
+        setPrompt(temp_prompt_header, temp_prompt_text);
 
         /*
 
@@ -269,7 +288,7 @@ public class Game extends AppCompatActivity {
     }
 
     // Simple method to hide & show a prompt
-    public void setPrompt(View v, String header, String text) {
+    public void setPrompt(String header, String text) {
         if (header == "CLEAR") {
             prompt_background.setVisibility(View.INVISIBLE);
             prompt_image.setVisibility(View.INVISIBLE);
@@ -289,6 +308,7 @@ public class Game extends AppCompatActivity {
             button_backspace.setVisibility(View.VISIBLE);
             questionTextView.setVisibility(View.VISIBLE);
             userInput.setVisibility(View.VISIBLE);
+            showingPrompt = false;
         } else {
             button_0.setVisibility(View.INVISIBLE);
             button_1.setVisibility(View.INVISIBLE);
@@ -308,6 +328,8 @@ public class Game extends AppCompatActivity {
             prompt_image.setVisibility(View.VISIBLE);
             prompt_header.setVisibility(View.VISIBLE);
             prompt_text.setVisibility(View.VISIBLE);
+
+            showingPrompt = true;
 
             prompt_text.setTextSize(20);
             questionTextView.setText("");
@@ -379,6 +401,7 @@ public class Game extends AppCompatActivity {
 
     // Helper-method to handle enter-inputs. Contains game-logic
     public void enter_clicked(View v) {
+        showingPrompt = false;
         if (isFinished) { //TODO shouldn't this be finish()? - Nei, dette e bare ein bool lagt til for å kunna exit'a med den grønne knappen når spillet e ferdig
             Intent i = new Intent(v.getContext(), MainActivity.class);
             startActivity(i);
@@ -398,17 +421,17 @@ public class Game extends AppCompatActivity {
             }
         } else if (!isPlaying && currentRound == 0) { // Startup
             isPlaying = true;
-            setPrompt(v, "CLEAR", "");
+            setPrompt("CLEAR", "");
             questionTextView.setText(questions[theRound[currentRound]]);
             userInput.setText("");
         } else if (currentRound == roundsToPlay) { // If ENTER is pressed after finishing a round, meaning user wishes to play new questions.
-            setPrompt(v, "CLEAR", "");
+            setPrompt("CLEAR", "");
             theRound = select_random(roundsToPlay, answers, questions_asked);
             if (theRound.length <= 0) { // If we've run out of questions
                 isFinished = true;
                 isPlaying = false;
                 String temp_prompt_header = "Bra jobba!"; //TODO: Replace with string
-                setPrompt(v, temp_prompt_header, getResources().getString(R.string.outOfQuestions));
+                setPrompt(temp_prompt_header, getResources().getString(R.string.outOfQuestions));
             } else if (theRound.length < roundsToPlay) { // If we have questions left, but not enough.
 
                 String temp_prompt_header = getResources().getString(R.string.bad_job);
@@ -417,7 +440,7 @@ public class Game extends AppCompatActivity {
                         + theRound.length + " " + getResources().getString(R.string.notEnoughQuestions_2)
                         + "\n\n" + getResources().getString(R.string.enterToContinue);
 
-                setPrompt(v, temp_prompt_header, temp_prompt_text);
+                setPrompt(temp_prompt_header, temp_prompt_text);
 
                 givenAnswers = new int[theRound.length];
                 roundsToPlay = theRound.length;
@@ -464,6 +487,15 @@ public class Game extends AppCompatActivity {
         savedInstanceState.putIntArray("givenAnswers", givenAnswers);
 
         savedInstanceState.putIntegerArrayList("questions_asked", questions_asked);
+
+        savedInstanceState.putBoolean("showingPrompt", showingPrompt);
+
+        savedInstanceState.putString("userInput", userInput.getText().toString());
+        savedInstanceState.putString("questionTextView", questionTextView.getText().toString());
+
+        savedInstanceState.putString("prompt_header", prompt_header.getText().toString());
+        savedInstanceState.putString("prompt_text", prompt_text.getText().toString());
+
     }
 
     @Override
@@ -476,5 +508,13 @@ public class Game extends AppCompatActivity {
         theRound = savedInstanceState.getIntArray("theRound");
         givenAnswers = savedInstanceState.getIntArray("givenAnswers");
         questions_asked = savedInstanceState.getIntegerArrayList("questions_asked");
+
+        showingPrompt = savedInstanceState.getBoolean("showingPrompt", showingPrompt);
+
+        userInput.setText(savedInstanceState.getString("userInput"));
+        questionTextView.setText(savedInstanceState.getString("questionTextView"));
+        prompt_header.setText(savedInstanceState.getString("prompt_header"));
+        prompt_text.setText(savedInstanceState.getString("prompt_text"));
+
     }
 }

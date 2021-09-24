@@ -33,7 +33,7 @@
     <string name="ikkeok" translatable="false">Denne strengen er IKKE ok</string>
 
     <string name="welcome">Velkommen!</string>
-    <string name="pressEnterToPlay">Trykk ⏎ for å starte!</string>
+    <string name="pressEnterToPlay">Trykk på den grønne knappen for å starte!</string>
     <string name="finished">Trykk på den grønne knappen for å spille enda en runde!</string>
     <string name="yourscore">Din score ble: </string>
     <string name="abortwarning">Sikker på du vil avbryte?\nVed avbrytelse lagres ikke spillet.</string>
