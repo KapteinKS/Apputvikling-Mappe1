@@ -44,7 +44,6 @@
                 android:textSize="24sp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/rum_raisin_regular"
-                android:visibility="invisible"
                 android:gravity="center_horizontal"/>
 
             <TextView
@@ -56,7 +55,6 @@
                 android:textSize="24sp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/rum_raisin_regular"
-                android:visibility="invisible"
                 android:gravity="center_horizontal"/>
         </TableRow>
 
