@@ -137,7 +137,7 @@ public class Game extends AppCompatActivity {
         prompt_text.setText(getResources().getString(R.string.intro_text));
 
     }
-    
+
     // Function to generate a round. Selects only unplayed questions.
 
     static int[] select_random(int roundsToPlay, int[] answers, ArrayList<Integer> questions_asked) {
