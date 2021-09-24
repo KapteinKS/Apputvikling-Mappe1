@@ -361,16 +361,6 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    //This was necessary to maintain the changed language across sessions and rotations
-    public void setLanguage(String landCode) {
-        DisplayMetrics dm = res.getDisplayMetrics();
-        configuration.setLocale(new Locale(landCode));
-        res.updateConfiguration(configuration, dm);
-        locale = configuration.locale;
-        //Log.e("TAG", locale.toString());
-        recreate();
-    }
-
     public void number_clicked(View view) {
         Button b = (Button) view;
         String number = (String) b.getText();
@@ -443,5 +433,15 @@ public class Game extends AppCompatActivity {
             numberBuffer.setLength(numberBuffer.length() - 1);
             userInput.setText(numberBuffer.toString());
         }
+    }
+
+    //This was necessary to maintain the changed language across sessions and rotations
+    public void setLanguage(String landCode) {
+        DisplayMetrics dm = res.getDisplayMetrics();
+        configuration.setLocale(new Locale(landCode));
+        res.updateConfiguration(configuration, dm);
+        locale = configuration.locale;
+        //Log.e("TAG", locale.toString());
+        recreate();
     }
 }
