@@ -2,12 +2,13 @@ package com.example.mappe1;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,17 +26,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Random;
 
 public class Game extends AppCompatActivity {
 
     private Context context;
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences.OnSharedPreferenceChangeListener listener;
-    private Resources res;
-    private Locale locale;
-    private Configuration configuration;
+
     boolean isPlaying = false;
     int roundsToPlay; //Length set from preferences in onCreate, default = 5
     int currentRound = 0;
@@ -118,26 +114,27 @@ public class Game extends AppCompatActivity {
             int a = givenAnswers[i];
             int b = answers[round[i]];
 
-            String result_line = "1: " + questions[round[i]] + " = ";
+            String result_line = questions[round[i]] + " = ";
 
             if (a == b){
-                result_line += a + "Er riktig!";
+                result_line += a + "   Er riktig!"; //TODO: replace with string
                 score++;
             }
             else{
-                result_line += a + " ER FEIL!!! Riktig svar er: " + b + "\n";
+                result_line += a + "  Er feil. Riktig svar er: " + b; //TODO: replace with string
             }
             result[i] = result_line;
 
         }
 
         // LOG
-        String res_msg = "##### Resultater:\n";
+        String res_msg = "##### Resultater:\n"; //TODO: replace with string
         for (String s : result){
             res_msg += "## " + s + "\n ";
         }
         Log.d("TAG", res_msg);
 
+        // Setting the results
         String temp_prompt_header = "";
         if (score == roundsToPlay){
             temp_prompt_header = getString(R.string.perfect_job);
@@ -158,12 +155,15 @@ public class Game extends AppCompatActivity {
 
 
         // TODO: Format this nicelier. Will it look horrible with 15 questions????
-        String temp_prompt_text = "##### Resultater:\n";
+        /*
+        String temp_prompt_text = "RESULTATER:\n"; //TODO: replace with string
         for (String s : result){
-            temp_prompt_text += "## " + s + "\n ";
+            temp_prompt_text += "" + s + "\n ";
         }
 
-        temp_prompt_text += "\n##FIX" + this.getResources().getString(R.string.yourscore) + " " + score + " / " + givenAnswers.length + "\n" + this.getResources().getString(R.string.finished);
+         */
+
+        String temp_prompt_text = this.getResources().getString(R.string.yourscore) + " " + score + " / " + givenAnswers.length + "\n" + this.getResources().getString(R.string.finished);
 
         //String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
 
@@ -171,6 +171,20 @@ public class Game extends AppCompatActivity {
         writeToFile(toSave, context);
 
         setPrompt(v, temp_prompt_header, temp_prompt_text);
+
+        /*
+
+        if(roundsToPlay <= 5){
+            prompt_text.setTextSize(20);
+        }
+        else if (roundsToPlay > 5 && roundsToPlay <= 10){
+            prompt_text.setTextSize(14);
+        }
+        else if (roundsToPlay > 10){
+            prompt_text.setTextSize(14);
+        }
+
+        */
 
         questionTextView.setText("");
         //String finished = this.getResources().getString(R.string.finished);
@@ -222,6 +236,7 @@ public class Game extends AppCompatActivity {
             prompt_header.setVisibility(View.VISIBLE);
             prompt_text.setVisibility(View.VISIBLE);
 
+            prompt_text.setTextSize(20);
             questionTextView.setText("");
             userInput.setText("");
             prompt_header.setText(header);
@@ -229,68 +244,17 @@ public class Game extends AppCompatActivity {
         }
     }
 
-
-
-    //// BACKUP //////////////////////////////////////
-    /*
-    // Method to conclude a round
-    public void finishRound(TextView question, TextView userInput, TextView prompt_text, int[] givenAnswers, String[] questions, int[] answers, int[] round){
-        String msg = "Answers were: ";
-        for (int i : givenAnswers){
-            msg += i + ", ";
-        }
-        Log.d("TAG", msg);
-
-        // Logic to check whether the given answer is correct or not
-        int score = 0;
-        String[] result = new String[givenAnswers.length];
-        for (int i = 0; i < roundsToPlay; i++){
-            int a = givenAnswers[i];
-            int b = answers[round[i]];
-
-            if (a == b){
-                result[i] = a + " VAR RIKTIG!!!";
-                score++;
-            }
-            else{
-                result[i] = a + " ER FEIL!!! Riktig svar er: " + b;
-            }
-        }
-        String res_msg = "##### Resultater:\n";
-        for (String s : result){
-            res_msg += "## " + s + "\n ";
-        }
-        Log.d("TAG", res_msg);
-
-
-        String scoremessage = "" + this.getResources().getString(R.string.yourscore) + " " + score;
-
-        String toSave = score + "," + (givenAnswers.length - score);
-        writeToFile(toSave, context);
-
-        question.setText("");
-        String finished = this.getResources().getString(R.string.finished);
-        userInput.setText("");
-
-        prompt_text.setText(scoremessage + " / " + givenAnswers.length + "\n" + finished);
-
-    }
-
-    */
-    /////////////////////////////////////////////////////
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         // Fetching resources containing the questions and answers to be asked
-        res = getResources();
+        Resources res = getResources();
         questions = res.getStringArray(R.array.questions);
         int[] answers = res.getIntArray(R.array.answers);
         context = getApplicationContext();
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String lengthString = sharedPreferences.getString("length", "5");
         roundsToPlay = Integer.parseInt(lengthString);
-        configuration = res.getConfiguration();
-        locale = configuration.locale;
+
         ArrayList<Integer> questions_asked = new ArrayList<>();
 
         File file = new File(context.getFilesDir(), "high-score-storage.txt");
@@ -306,18 +270,6 @@ public class Game extends AppCompatActivity {
         // Selecting which questions are to be asked
         theRound = select_random(roundsToPlay, answers, questions_asked);
         givenAnswers = new int[theRound.length];
-
-
-        // DEBUG
-        /*
-        String out = "Runden ble: ";
-        for (int i : theRound){
-            out += " " + i + ": " + questions[i] + "\n";
-        }
-        Log.d("TAG", out);
-        Log.d("TAG", "\n####Questions_asked: " + questions_asked.toString());
-         */
-        // DEBUG
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);;
@@ -445,6 +397,7 @@ public class Game extends AppCompatActivity {
                     numberBuffer.setLength(0);
                     userInput.setText("");
                     givenAnswers[currentRound] = answer;
+
                     currentRound++; // Advance a round
                     // Check if we're done
                     if (currentRound >= roundsToPlay){
@@ -465,16 +418,17 @@ public class Game extends AppCompatActivity {
                     setPrompt(v, "CLEAR", "");
                     theRound = select_random(roundsToPlay, answers, questions_asked);
                     if (theRound.length <= 0){ // If we've run out of questions
-                        String temp_prompt_header = "Bra jobba!";
+                        isPlaying = false;
+                        String temp_prompt_header = "Bra jobba!"; //TODO: Replace with string
                         setPrompt(v, temp_prompt_header, getResources().getString(R.string.outOfQuestions));
                     }
                     else if (theRound.length < roundsToPlay){ // If we have questions left, but not enough.
 
                         String temp_prompt_header = getResources().getString(R.string.bad_job);
 
-                        String temp_prompt_text = getResources().getString(R.string.notEnoughQuestions_1)
-                                + theRound.length + getResources().getString(R.string.notEnoughQuestions_2)
-                                + getResources().getString(R.string.enterToContinue);
+                        String temp_prompt_text = getResources().getString(R.string.notEnoughQuestions_1) + " "
+                                + theRound.length + " " + getResources().getString(R.string.notEnoughQuestions_2)
+                                + "\n\n" + getResources().getString(R.string.enterToContinue);
 
                         setPrompt(v, temp_prompt_header, temp_prompt_text);
 
@@ -554,5 +508,4 @@ public class Game extends AppCompatActivity {
         //Log.e("TAG", locale.toString());
         recreate();
     }
-
 }

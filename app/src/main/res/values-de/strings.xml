@@ -30,7 +30,7 @@
     <string name="no">Nein</string>
 
     <string name="outOfQuestions">Du hast keine Fragen</string>
-    <string name="enterToContinue">Drücken Sie ⏎, um fortzufahren</string>
+    <string name="enterToContinue">Drücken Sie die grüne Taste, um fortzufahren</string>
     <string name="notEnoughQuestions_1">Du hast nur noch </string>
     <string name="notEnoughQuestions_2"> fragen!</string>
     <string name="intro_text">Willkommen bei MathCat!\n Hier können Sie das Hinzufügen üben!\nDrücken Sie die grüne Taste, um zu starten!</string>

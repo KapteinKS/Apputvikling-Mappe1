@@ -272,10 +272,12 @@
     <TextView
         android:id="@+id/prompt_background"
         android:layout_width="287dp"
-        android:layout_height="478dp"
+        android:layout_height="match_parent"
         android:layout_marginStart="17dp"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -304,12 +306,14 @@
 
     <TextView
         android:id="@+id/prompt_text"
-        android:layout_width="268dp"
-        android:layout_height="285dp"
-        android:layout_marginStart="24dp"
+        android:layout_width="287dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
         android:layout_marginTop="232dp"
+        android:background="@color/white"
         android:fontFamily="@font/rum_raisin_regular"
-        android:lineSpacingExtra="8sp"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
         android:text="Some more temp text"
         android:textAlignment="center"
         android:textColor="@color/black"
