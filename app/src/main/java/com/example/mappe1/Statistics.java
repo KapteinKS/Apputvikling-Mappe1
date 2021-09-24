@@ -132,7 +132,7 @@ public class Statistics extends AppCompatActivity {
 
     public void deleteStats(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.setMessage(R.string.delete_warning);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
