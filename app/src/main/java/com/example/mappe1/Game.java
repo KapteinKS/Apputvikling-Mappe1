@@ -352,7 +352,7 @@ public class Game extends AppCompatActivity {
 
                 String temp_prompt_text = getResources().getString(R.string.notEnoughQuestions_1) + " "
                         + theRound.length + " " + getResources().getString(R.string.notEnoughQuestions_2)
-                        + "\n\n" + getResources().getString(R.string.enterToContinue);
+                        + "\n" + getResources().getString(R.string.enterToContinue);
 
                 setPrompt(temp_prompt_header, temp_prompt_text);
 
