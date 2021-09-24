@@ -254,14 +254,18 @@ public class Game extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
-        // Fetching resources containing the questions and answers to be asked
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_game);
+
         res = getResources();
         questions = res.getStringArray(R.array.questions);
-        int[] answers = res.getIntArray(R.array.answers);
         context = getApplicationContext();
         configuration = res.getConfiguration();
         locale = configuration.locale;
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+
+        // Fetching resources containing the questions and answers to be asked
+        int[] answers = res.getIntArray(R.array.answers);
         String lengthString = sharedPreferences.getString("length", "5");
         roundsToPlay = Integer.parseInt(lengthString);
 
@@ -280,9 +284,6 @@ public class Game extends AppCompatActivity {
         // Selecting which questions are to be asked
         theRound = select_random(roundsToPlay, answers, questions_asked);
         givenAnswers = new int[theRound.length];
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);;
 
         questionTextView = (TextView)findViewById(R.id.question);
         userInput = (TextView)findViewById(R.id.userInput);
