@@ -2,7 +2,11 @@ package com.example.mappe1;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.TableLayout;
@@ -10,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -18,17 +23,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Locale;
 
 public class Statistics extends AppCompatActivity {
     private Context context;
-    TableLayout tableLayout;
-
+    private TableLayout tableLayout;
+    private SharedPreferences sharedPreferences;
+    private SharedPreferences.OnSharedPreferenceChangeListener listener;
+    private Resources res;
+    private Locale locale;
+    private Configuration configuration;
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.statistics);
 
         context = getApplicationContext();
+        res = getResources();
+        configuration = res.getConfiguration();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        locale = configuration.locale;
         tableLayout = findViewById(R.id.highScoreLayout);
 
         Context context = getApplicationContext();
@@ -42,6 +56,14 @@ public class Statistics extends AppCompatActivity {
             }
         }
         viewStatistics();
+    }
+    @Override
+    protected void onResume(){
+        super.onResume();
+        String language = sharedPreferences.getString(getString(R.string.sp_key_language), "no");
+        if (!language.equals(locale.toString())){
+            setLanguage(language);
+        }
     }
 
     private void viewStatistics() {
@@ -77,21 +99,6 @@ public class Statistics extends AppCompatActivity {
         }
     }
 
-    /*
-    public void addTableRow(String text){
-        TableRow tableRow = new TableRow(this);
-        tableRow.setLayoutParams(new TableLayout.
-                LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT));
-        TextView textView1 = new TextView(this);
-        textView1.setLayoutParams(new TableRow.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-        textView1.setText(text);
-        tableRow.addView(textView1);
-        tableLayout.addView(tableRow);
-    }
-     */
-
     private int[] readFromFile(Context context){
         int correct = 0;
         int wrong = 0;
@@ -125,7 +132,7 @@ public class Statistics extends AppCompatActivity {
 
     public void deleteStats(View view){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         builder.setMessage(R.string.delete_warning);
         builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
             @Override
@@ -148,5 +155,13 @@ public class Statistics extends AppCompatActivity {
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+    public void setLanguage(String landCode){
+        DisplayMetrics dm = res.getDisplayMetrics();
+        configuration.setLocale(new Locale(landCode));
+        res.updateConfiguration(configuration, dm);
+        locale = configuration.locale;
+        //Log.e("TAG", locale.toString());
+        recreate();
     }
 }

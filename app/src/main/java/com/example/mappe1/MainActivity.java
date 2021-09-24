@@ -20,18 +20,23 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private Context context;
     private SharedPreferences.OnSharedPreferenceChangeListener listener;
+    private Resources res;
+    private Locale locale;
+    private Configuration configuration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = getApplicationContext();
+        res = getResources();
+        configuration = res.getConfiguration();
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String length = sharedPreferences.getString(getString(R.string.preference_length), "5");
+        locale = configuration.locale;
         listener = new SharedPreferences.OnSharedPreferenceChangeListener() {
             public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
                 //Log.d("TAG", key);
-                if ("language".equals(key)) {
+                if (key.equals("language")) {
                     String language = sharedPreferences.getString(getString(R.string.sp_key_language), "no");
                     setLanguage(language);
                     recreate();
@@ -39,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        String language = sharedPreferences.getString(getString(R.string.sp_key_language), "no");
+        if (!language.equals(locale.toString())){
+            setLanguage(language);
+        }
     }
 
     public void startGame(View view) {
@@ -57,12 +71,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setLanguage(String landCode){
-        Log.d("TAG", "Changing language with code " + landCode);
-        Resources res = getResources();
         DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration config = res.getConfiguration();
-        config.setLocale(new Locale(landCode));
-        res.updateConfiguration(config, dm);
+        configuration.setLocale(new Locale(landCode));
+        res.updateConfiguration(configuration, dm);
+        locale = configuration.locale;
+        //Log.e("TAG", locale.toString());
         recreate();
     }
 }
