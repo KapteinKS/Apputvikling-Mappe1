@@ -401,14 +401,15 @@ public class Game extends AppCompatActivity {
         prompt_text.setText(getResources().getString(R.string.intro_text));
 
 
+        //TODO I needed a quicker way to find this block
         // This is where the magic happens babyyy
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                if (isFinished){
+                if (isFinished){ //TODO shouldn't this be finish()?
                     Intent i = new Intent(v.getContext(), MainActivity.class);
                     startActivity(i);
                 }
-                if (isPlaying && numberBuffer.length() > 0){
+                if (isPlaying && numberBuffer.length() > 0){ //While playing
                     int answer = Integer.parseInt(numberBuffer.toString());
                     numberBuffer.setLength(0);
                     userInput.setText("");
