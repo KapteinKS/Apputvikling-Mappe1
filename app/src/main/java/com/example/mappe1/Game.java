@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -18,11 +16,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
-import androidx.preference.Preference;
 import androidx.preference.PreferenceManager;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,10 +48,8 @@ public class Game extends AppCompatActivity {
     // Creating a numberbuffer
     StringBuilder numberBuffer = new StringBuilder();
 
-
     TextView questionTextView;
     TextView userInput;
-
     Button button_backspace;
     Button button_enter;
     Button button_0;
@@ -70,7 +62,6 @@ public class Game extends AppCompatActivity {
     Button button_7;
     Button button_8;
     Button button_9;
-
     TextView prompt_background;
     ImageView prompt_image;
     TextView prompt_header;
@@ -80,6 +71,18 @@ public class Game extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null){
+            currentRound = savedInstanceState.getInt("currentRound");
+            roundsToPlay = savedInstanceState.getInt("roundsToPlay");
+            isPlaying = savedInstanceState.getBoolean("isPlaying");
+            isFinished = savedInstanceState.getBoolean("isFinished");
+            theRound = savedInstanceState.getIntArray("theRound");
+            givenAnswers = savedInstanceState.getIntArray("givenAnswers");
+            questions_asked = savedInstanceState.getIntegerArrayList("questions_asked");
+        }
+        else{
+
+        }
         setContentView(R.layout.activity_game);
 
         res = getResources();
@@ -93,7 +96,6 @@ public class Game extends AppCompatActivity {
         answers = res.getIntArray(R.array.answers);
         String lengthString = sharedPreferences.getString("length", "5");
         roundsToPlay = Integer.parseInt(lengthString);
-
         questions_asked = new ArrayList<>();
         isFinished = false;
         File file = new File(context.getFilesDir(), "high-score-storage.txt");
@@ -133,13 +135,16 @@ public class Game extends AppCompatActivity {
         prompt_text = (TextView) findViewById(R.id.prompt_text);
 
         // Startup formatting.
-        prompt_header.setText(getResources().getString(R.string.welcome));
-        prompt_text.setText(getResources().getString(R.string.intro_text));
-
+        if(roundsToPlay == 0) {
+            prompt_header.setText(getResources().getString(R.string.welcome));
+            prompt_text.setText(getResources().getString(R.string.intro_text));
+        }
+        else{
+            //setPrompt(context,"CLEAR","");
+        }
     }
 
     // Function to generate a round. Selects only unplayed questions.
-
     static int[] select_random(int roundsToPlay, int[] answers, ArrayList<Integer> questions_asked) {
         int min = 0;
         int max = answers.length;
@@ -171,8 +176,8 @@ public class Game extends AppCompatActivity {
         return round;
 
     }
-    // Method to conclude a round
 
+    // Method to conclude a round
     public void finishRound(View v, int[] answers, int[] round) {
         String msg = "Answers were: "; // TODO: Replace all these internal strings
         for (int i : givenAnswers) {
@@ -262,8 +267,8 @@ public class Game extends AppCompatActivity {
         //prompt_text.setText(scoremessage + " / " + givenAnswers.length + "\n" + finished);
 
     }
-    // Simple method to hide & show a prompt
 
+    // Simple method to hide & show a prompt
     public void setPrompt(View v, String header, String text) {
         if (header == "CLEAR") {
             prompt_background.setVisibility(View.INVISIBLE);
@@ -348,6 +353,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    // Method to save data to a file, to enable statistics
     public boolean writeToFile(String data, Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput("high-score-storage.txt", Context.MODE_APPEND));
@@ -361,6 +367,7 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    // Helper-method for handling button-inputs
     public void number_clicked(View view) {
         Button b = (Button) view;
         String number = (String) b.getText();
@@ -370,8 +377,9 @@ public class Game extends AppCompatActivity {
         }
     }
 
+    // Helper-method to handle enter-inputs. Contains game-logic
     public void enter_clicked(View v) {
-        if (isFinished) { //TODO shouldn't this be finish()?
+        if (isFinished) { //TODO shouldn't this be finish()? - Nei, dette e bare ein bool lagt til for å kunna exit'a med den grønne knappen når spillet e ferdig
             Intent i = new Intent(v.getContext(), MainActivity.class);
             startActivity(i);
         }
@@ -423,11 +431,10 @@ public class Game extends AppCompatActivity {
                 userInput.setText("");
                 isPlaying = true;
             }
-
-
         }
     }
 
+    // Helper-method to handle backspace-input.
     public void backspace_clicked (View view){
         if (numberBuffer.length() > 0) {
             numberBuffer.setLength(numberBuffer.length() - 1);
@@ -443,5 +450,31 @@ public class Game extends AppCompatActivity {
         locale = configuration.locale;
         //Log.e("TAG", locale.toString());
         recreate();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putInt("currentRound",currentRound);
+        savedInstanceState.putInt("roundsToPlay",roundsToPlay);
+        savedInstanceState.putBoolean("isPlaying", isPlaying);
+        savedInstanceState.putBoolean("isFinished", isFinished);
+
+        savedInstanceState.putIntArray("theRound", theRound);
+        savedInstanceState.putIntArray("givenAnswers", givenAnswers);
+
+        savedInstanceState.putIntegerArrayList("questions_asked", questions_asked);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState){
+        super.onRestoreInstanceState(savedInstanceState);
+        currentRound = savedInstanceState.getInt("currentRound");
+        roundsToPlay = savedInstanceState.getInt("roundsToPlay");
+        isPlaying = savedInstanceState.getBoolean("isPlaying");
+        isFinished = savedInstanceState.getBoolean("isFinished");
+        theRound = savedInstanceState.getIntArray("theRound");
+        givenAnswers = savedInstanceState.getIntArray("givenAnswers");
+        questions_asked = savedInstanceState.getIntegerArrayList("questions_asked");
     }
 }
