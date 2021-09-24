@@ -149,6 +149,7 @@ public class Game extends AppCompatActivity {
         button_8 = (Button) findViewById(R.id.button_8);
         button_9 = (Button) findViewById(R.id.button_9);
 
+
         prompt_background = (TextView) findViewById(R.id.prompt_background);
         prompt_image = (ImageView) findViewById(R.id.prompt_image);
         prompt_header = (TextView) findViewById(R.id.prompt_header);
