@@ -77,21 +77,6 @@ public class Statistics extends AppCompatActivity {
         }
     }
 
-    /*
-    public void addTableRow(String text){
-        TableRow tableRow = new TableRow(this);
-        tableRow.setLayoutParams(new TableLayout.
-                LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-                TableRow.LayoutParams.WRAP_CONTENT));
-        TextView textView1 = new TextView(this);
-        textView1.setLayoutParams(new TableRow.LayoutParams(
-                TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT));
-        textView1.setText(text);
-        tableRow.addView(textView1);
-        tableLayout.addView(tableRow);
-    }
-     */
-
     private int[] readFromFile(Context context){
         int correct = 0;
         int wrong = 0;
