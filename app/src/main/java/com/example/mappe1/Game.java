@@ -41,6 +41,7 @@ public class Game extends AppCompatActivity {
     private Configuration configuration;
 
     boolean isPlaying = false;
+    boolean isFinished = false;
     int roundsToPlay; //Length set from preferences in onCreate, default = 5
     int currentRound = 0;
 
@@ -266,7 +267,7 @@ public class Game extends AppCompatActivity {
         roundsToPlay = Integer.parseInt(lengthString);
 
         ArrayList<Integer> questions_asked = new ArrayList<>();
-
+        isFinished = false;
         File file = new File(context.getFilesDir(), "high-score-storage.txt");
 
         if (!file.exists()){
@@ -402,12 +403,15 @@ public class Game extends AppCompatActivity {
         // This is where the magic happens babyyy
         button_enter.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                if (isFinished){
+                    Intent i = new Intent(v.getContext(), MainActivity.class);
+                    startActivity(i);
+                }
                 if (isPlaying && numberBuffer.length() > 0){
                     int answer = Integer.parseInt(numberBuffer.toString());
                     numberBuffer.setLength(0);
                     userInput.setText("");
                     givenAnswers[currentRound] = answer;
-
                     currentRound++; // Advance a round
                     // Check if we're done
                     if (currentRound >= roundsToPlay){
@@ -428,6 +432,7 @@ public class Game extends AppCompatActivity {
                     setPrompt(v, "CLEAR", "");
                     theRound = select_random(roundsToPlay, answers, questions_asked);
                     if (theRound.length <= 0){ // If we've run out of questions
+                        isFinished = true;
                         isPlaying = false;
                         String temp_prompt_header = "Bra jobba!"; //TODO: Replace with string
                         setPrompt(v, temp_prompt_header, getResources().getString(R.string.outOfQuestions));
