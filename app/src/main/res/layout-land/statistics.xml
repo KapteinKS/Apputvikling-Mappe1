@@ -44,8 +44,7 @@
                 android:text="@string/correct"
                 android:textSize="24sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/rum_raisin_regular"
-                android:visibility="invisible" />
+                android:fontFamily="@font/rum_raisin_regular" />
 
             <TextView
                 android:id="@+id/wrong"
@@ -56,8 +55,7 @@
                 android:text="@string/wrong"
                 android:textSize="24sp"
                 android:textColor="@color/white"
-                android:fontFamily="@font/rum_raisin_regular"
-                android:visibility="invisible" />
+                android:fontFamily="@font/rum_raisin_regular" />
         </TableRow>
 
         <TableRow
