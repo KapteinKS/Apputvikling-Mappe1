@@ -1,9 +1,11 @@
-package com.example.mappe1;
+package com.example.s344045s344104;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+
+import s344045s344104.R;
 
 public class SettingsFragment extends PreferenceFragmentCompat implements
         SharedPreferences.OnSharedPreferenceChangeListener, Preference.OnPreferenceChangeListener {

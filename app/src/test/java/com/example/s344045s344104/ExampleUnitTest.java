@@ -1,4 +1,4 @@
-package com.example.mappe1;
+package com.example.s344045s344104;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.example.mappe1;
+package com.example.s344045s344104;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -24,6 +24,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.Locale;
+
+import s344045s344104.R;
 
 public class Statistics extends AppCompatActivity {
     private Context context;

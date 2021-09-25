@@ -1,4 +1,4 @@
-package com.example.mappe1;
+package com.example.s344045s344104;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -13,6 +13,8 @@ import android.util.DisplayMetrics;
 import android.view.View;
 
 import java.util.Locale;
+
+import s344045s344104.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mappe1">
+    package="s344045s344104">
 
     <application
         android:allowBackup="true"
@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Mappe1">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.s344045s344104.MainActivity"
             android:exported="true"
             android:configChanges="locale|orientation"
             android:launchMode="singleTop">
@@ -20,19 +20,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Statistics"
+        <activity android:name="com.example.s344045s344104.Statistics"
             android:label=""
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName="com.example.s344045s344104.MainActivity"
             android:launchMode="singleTop">
 
         </activity>
-        <activity android:name=".Game"
-            android:parentActivityName=".MainActivity"
+        <activity android:name="com.example.s344045s344104.Game"
+            android:parentActivityName="com.example.s344045s344104.MainActivity"
             android:launchMode="singleTop">
 
         </activity>
-        <activity android:name=".SetPreferencesActivity"
-            android:parentActivityName=".MainActivity"
+        <activity android:name="com.example.s344045s344104.SetPreferencesActivity"
+            android:parentActivityName="com.example.s344045s344104.MainActivity"
             android:launchMode="singleTop">
 
         </activity>

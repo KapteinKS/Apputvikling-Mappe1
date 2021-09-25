@@ -1,4 +1,4 @@
-package com.example.mappe1;
+package com.example.s344045s344104;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.example.mappe1", appContext.getPackageName());
+        assertEquals("com.example.s344045s344104", appContext.getPackageName());
     }
 }

@@ -1,8 +1,7 @@
-package com.example.mappe1;
+package com.example.s344045s344104;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -24,6 +23,8 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
+
+import s344045s344104.R;
 
 public class Game extends AppCompatActivity {
     // Declaring needed objects

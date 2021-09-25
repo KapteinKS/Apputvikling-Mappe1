@@ -1,4 +1,4 @@
-package com.example.mappe1;
+package com.example.s344045s344104;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,11 +7,12 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Locale;
+
+import s344045s344104.R;
 
 public class SetPreferencesActivity extends AppCompatActivity {
 
